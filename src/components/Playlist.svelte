@@ -29,7 +29,11 @@
      display: flex;
      position: relative;
      padding: .5em 1em;
-     border-bottom: 1px solid 
+     border-bottom: 1px solid white;
+ }
+
+ .row:last-child {
+     border-bottom: none;
  }
 
  .row:hover {

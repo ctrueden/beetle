@@ -1,6 +1,7 @@
 <script>
- import {getContext, onMount} from 'svelte';
- import Playlist from './Playlist.svelte';
+ import {getContext, onMount} from 'svelte'
+ import Playlist from './Playlist.svelte'
+ import Item from './Item.svelte'
  export let playlist = []
 
  let playlistUpdater = getContext('playlistUpdater')
@@ -11,45 +12,49 @@
  $: percent = 100* (currentTime/duration)
  let audioElt
  let openedPlaylist = false
+ let paused = true
 
+ 
  const insert = function(items) {
      for(let item of items) {
          playlist.push(item)
      }
      // force update
      playlist = playlist
-     audioElt.play()
+     togglePlay(true)
  }
 
 
  onMount(() => {
      playlistUpdater.register(insert)
  })
- 
- const togglePlay = function (e) {
-     if (audioElt.paused) {
+
+ const togglePlay = function (forcePlay) {
+     if (forcePlay || audioElt.paused) {
          audioElt.play()
      } else {
          audioElt.pause()
      }
+     paused = audioElt.paused
  }
 
+ const handlePlay = function(e) {
+     togglePlay()
+ }
+ 
  const handlePrevious = function(e) {
      if (currentIndex > 0) {
-         audioElt.pause()
          currentIndex --
          audioElt.load()
-         audioElt.play()
+         togglePlay(true)
      }
  }
 
  const handleNext = function(e) {
      if (currentIndex + 1 < playlist.length) {
-         audioElt.pause()
          currentIndex ++
          audioElt.load()
-         audioElt.play()
-
+         togglePlay(true)
      }
  }
  
@@ -59,24 +64,63 @@
     <div class="playlist">
         <Playlist playlist="{playlist}" currentIndex="{currentIndex}" />
     </div>
-    <div class="bar" style="width: {percent}%">
+    <div class="bar-wrapper">
+        <div class="bar" style="width: {percent}%">
+        </div>
     </div>
     <div class="bottom">
-        <div class="current">
+        <div class="current controls">
+            {#if playlist[currentIndex]}
+                <Item item="{playlist[currentIndex]}" albumDisplayed="true}" durationDisplayed="{false}" />
+            {/if}
         </div>
         <div class="controls">
             <div class="control">
-                <input type="button" value="prev" on:click="{handlePrevious}" />
+                <button on:click="{handlePrevious}">
+                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
+                        <title>previous</title>
+                        <path d='M400,111V401c0,17.44-17,28.52-31,20.16L121.09,272.79c-12.12-7.25-12.12-26.33,0-33.58L369,90.84C383,82.48,400,93.56,400,111Z' style='fill:none;stroke-miterlimit:10;stroke-width:32px'/><line x1='112' y1='80' x2='112' y2='432' style='fill:none;stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px'/></svg>
+                </button>
             </div>
             <div class="control">
-                <input  type="button" value="play" on:click="{togglePlay}" />
+                <button on:click="{handlePlay}">
+                    {#if paused}
+                        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
+                            <title>play</title>
+                            <path d='M112,111V401c0,17.44,17,28.52,31,20.16l247.9-148.37c12.12-7.25,12.12-26.33,0-33.58L143,90.84C129,82.48,112,93.56,112,111Z' style='fill:none;stroke-miterlimit:10;stroke-width:32px'/>
+                        </svg>
+                    {:else}
+                        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
+                            <title>pause</title>
+                            <rect x='176' y='96' width='16' height='320' style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
+                            <rect x='320' y='96' width='16' height='320' style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
+                        </svg>
+
+                    {/if}
+                </button>
             </div>
             <div class="control">
-                <input type="button" value="next" on:click="{handleNext}" />
+                <button on:click="{handleNext}">
+                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
+                        <title>next</title>
+                        <path d='M112,111V401c0,17.44,17,28.52,31,20.16l247.9-148.37c12.12-7.25,12.12-26.33,0-33.58L143,90.84C129,82.48,112,93.56,112,111Z' style='fill:none;stroke-miterlimit:10;stroke-width:32px'/><line x1='400' y1='80' x2='400' y2='432' style='fill:none;stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px'/>
+                    </svg>
+                </button>
             </div>
         </div>
-        <div class="toggle-playlist">
-            <input type="checkbox" bind:checked="{openedPlaylist}" />
+        <div class="toggle-playlist controls">
+            <input type="checkbox" id="toggle-playlist-control" bind:checked="{openedPlaylist}" />
+            <label for="toggle-playlist-control" class="control">
+                <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
+                    <title>playlist</title>
+                    <line x1='160' y1='144' x2='448' y2='144' style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
+                    <line x1='160' y1='256' x2='448' y2='256' style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
+                    <line x1='160' y1='368' x2='448' y2='368' style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
+                    <circle cx='80' cy='144' r='16' style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
+                    <circle cx='80' cy='256' r='16' style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
+                    <circle cx='80' cy='368' r='16' style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
+                </svg>
+            </label>
         </div>
     </div>
     <audio on:ended="{handleNext}" bind:this="{audioElt}" bind:currentTime bind:duration>
@@ -87,23 +131,27 @@
 </div>
 
 <style>
- .hidden {
-     display: none;
- }
+
+ 
  
  #player {
      display: flex;
      flex-direction: column;
      justify-content: flex-end;
+     align-items: center;
      width: 100%;
      position: fixed;
      bottom: 0;
      color: white;
      background-color: black;
  }
-
+ 
  #player.open {
      top:0;
+ }
+
+ .bar-wrapper {
+     width: 100%;
  }
  
  .bar {
@@ -113,23 +161,62 @@
 
  .bottom {
      display: flex;
+     flex-direction: row;
      justify-content: space-around;
-     height: 5em;
+     flex-basis: 5em;
+     flex-shrink: 0;
+     flex-grow: 0;
+     width: 100%;
  }
  
  .controls {
      display: flex;
+     justify-content: space-around;
+     align-items: center;
+     flex-basis: 33%;
  }
 
+ .control {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     fill: black;
+     width: 3.3em;
+ }
+
+ .control button {
+     border: none;
+     background-color: inherit;
+ }
+ 
+ .control svg {
+     width: 100%;
+     stroke: white;
+ }
+
+ .toggle-playlist.controls {
+     justify-content: flex-end;
+     padding-right: 1em;
+ }
+ 
+ .toggle-playlist input {
+     display:none;
+ }
+
+ .toggle-playlist input:checked ~ label svg {
+     stroke: red;
+ }
+
+ 
  #player.open .playlist {
      display: block;
  }
  
  .playlist {
      display: none;
-     margin: auto;
      width: 100%;
      max-width: 30em;
      overflow: auto;
  }
+
 </style>

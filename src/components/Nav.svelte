@@ -33,6 +33,7 @@
  }
 
  .search {
+     max-width: 50%;
      margin: 1em;
      float: right;
  }

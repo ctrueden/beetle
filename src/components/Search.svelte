@@ -17,6 +17,15 @@
 </form>
 
 <style>
+ input {
+     display: inline-block;
+     width: 80%;
+ }
+
+ label{
+     display: inline-block;
+ }
+ 
  .icon {
      align-self: center;
  }
