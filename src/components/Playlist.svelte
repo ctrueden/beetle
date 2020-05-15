@@ -35,7 +35,7 @@
         <div class="state">
         </div>
         <div class="item">
-            <Item item="{obj.item}" itemLink=""/>
+            <Item item="{obj.item}" disabledLink="{true}"/>
         </div>
         <div class="remove">
             <button on:click="{handleRemove}" data-songid="{obj.songid}" >

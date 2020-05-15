@@ -1,8 +1,6 @@
 <script>
  export let item
- export let itemLink = "/item/" + item.id
- export let artistLink = "/artist/" + item.mb_artistid
- export let albumLink = "/album/" + item.album_id
+ export let disabledLink = false
  export let albumDisplayed = false
  export let durationDisplayed = true
 
@@ -33,10 +31,18 @@
         {/if}
         <div class="name">
             <div class="title">
-                <a href="{itemLink}">{item.title}</a>
+                {#if disabledLink}
+                    {item.title}
+                {:else}
+                    <a href="{itemLink}">{item.title}</a>
+                {/if}
             </div>
             <div class="artist">
-                <a href="{artistLink}">{item.artist}</a>
+                {#if disabledLink}
+                    {item.artist}
+                {:else}
+                    <a href="{artistLink}">{item.artist}</a>
+                {/if}
             </div>
         </div>
     </div>
