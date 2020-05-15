@@ -14,7 +14,7 @@
 </script>
 
 <script>
- import PlaylistInsert from '../../components/PlaylistInsert.svelte'
+ import PlaylistControllers from '../../components/PlaylistControllers.svelte'
  export let item;
  
  function htmlLyrics(text) {
@@ -28,8 +28,6 @@
 
 <h1>{item.title}</h1>
 
-<PlaylistInsert items="{[item]}" forcePlay="{true}" />
-
 <div class='content'>
     <ul>
         <li><strong>Album: </strong> <a href="/album/{item.album_id}">{item.album}</a></li>
@@ -37,7 +35,7 @@
         <li><strong>Date: </strong>{item.original_year}</li>
         <li><strong>MusicBrainz: </strong> <a href="https://musicbrainz.org/track/{item.mb_trackid}">{item.mb_albumid}</a></li>
     </ul>
-
+    <PlaylistControllers items="{[item]}" />
     {#if item.lyrics}
     <h2>Paroles</h2>
     <p>{@html htmlLyrics(item.lyrics)}</p>

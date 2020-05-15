@@ -1,6 +1,7 @@
 export default class {
   constructor() {
     this.listeners = []
+    this.playListeners = []
   }
 
   insert(items) {
@@ -9,7 +10,17 @@ export default class {
     }
   }
 
-  register(listener) {
+  play () {
+    for (let f of this.playListeners) {
+      f()
+    }
+  }
+
+  register (listener) {
     this.listeners.push(listener)
+  }
+
+  registerPlay (listener) {
+    this.playListeners.push(listener)
   }
 }

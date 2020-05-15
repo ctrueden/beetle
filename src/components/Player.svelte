@@ -2,40 +2,58 @@
  import {getContext, onMount} from 'svelte'
  import Playlist from './Playlist.svelte'
  import Item from './Item.svelte'
- export let playlist = []
+ import PL from '../libs/playlist'
+ export let playlist = new PL()
 
  let playlistUpdater = getContext('playlistUpdater')
 
- let currentIndex = 0
  let currentTime
  let duration
  $: percent = 100* (currentTime/duration)
  let audioElt
  let openedPlaylist = false
  let paused = true
+ let playingItem = undefined
 
- 
  const insert = function(items) {
      for(let item of items) {
-         playlist.push(item)
+         playlist.add(item)
      }
-     // force update
-     playlist = playlist
-     togglePlay(true)
  }
 
+ const playStateListener = function (state) {
+     const previousId = (playingItem) ? playingItem.id : undefined
+     playingItem = (state.current) ? state.current.item : undefined
+     paused = state.paused
+
+     if (!playingItem) {
+         currentTime = NaN
+     }
+     
+     if (playingItem &&
+         previousId !== playingItem.id) {
+         audioElt.load()
+     }
+     
+     if (paused) {
+         audioElt.pause()
+     } else {
+         audioElt.play()
+     }
+ } 
 
  onMount(() => {
      playlistUpdater.register(insert)
+     playlistUpdater.registerPlay(() => playlist.pause(false))
+     playlist.registerPlayStateListener(playStateListener)
  })
 
- const togglePlay = function (forcePlay) {
-     if (forcePlay || audioElt.paused) {
-         audioElt.play()
+ const togglePlay = function () {
+     if (paused) {
+         playlist.pause(false)
      } else {
-         audioElt.pause()
+         playlist.pause(true)
      }
-     paused = audioElt.paused
  }
 
  const handlePlay = function(e) {
@@ -43,26 +61,17 @@
  }
  
  const handlePrevious = function(e) {
-     if (currentIndex > 0) {
-         currentIndex --
-         audioElt.load()
-         togglePlay(true)
-     }
+     playlist.previous()
  }
 
  const handleNext = function(e) {
-     if (currentIndex + 1 < playlist.length) {
-         currentIndex ++
-         audioElt.load()
-         togglePlay(true)
-     }
+     playlist.next()
  }
- 
 </script>
 
 <div id="player" class="{(openedPlaylist) ? 'open' : ''}">
     <div class="playlist">
-        <Playlist playlist="{playlist}" currentIndex="{currentIndex}" />
+        <Playlist playlist="{playlist}"  />
     </div>
     <div class="bar-wrapper">
         <div class="bar" style="width: {percent}%">
@@ -70,8 +79,8 @@
     </div>
     <div class="bottom">
         <div class="current controls">
-            {#if playlist[currentIndex]}
-                <Item item="{playlist[currentIndex]}" albumDisplayed="true}" durationDisplayed="{false}" />
+            {#if playingItem}
+                <Item item="{playingItem}" albumDisplayed="true}" durationDisplayed="{false}" />
             {/if}
         </div>
         <div class="controls">
@@ -124,8 +133,8 @@
         </div>
     </div>
     <audio on:ended="{handleNext}" bind:this="{audioElt}" bind:currentTime bind:duration>
-        {#if playlist[currentIndex]}
-            <source src="https://k7.buron.coffee/api/item/{playlist[currentIndex].id}/file">
+        {#if playingItem}
+            <source src="https://k7.buron.coffee/api/item/{playingItem.id}/file">
         {/if}
     </audio>
 </div>

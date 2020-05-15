@@ -14,7 +14,7 @@
 </script>
 
 <script>
- import PlaylistInsert from '../../components/PlaylistInsert.svelte'
+ import PlaylistControllers from '../../components/PlaylistControllers.svelte'
  import Item from '../../components/Item.svelte'
  export let album;
 </script>
@@ -32,11 +32,11 @@
         <li><strong>Date: </strong>{album.original_year}</li>
         <li><strong>MusicBrainz: </strong> <a href="https://musicbrainz.org/release/{album.mb_albumid}">{album.mb_albumid}</a></li>
     </ul>
+    <PlaylistControllers items={album.items} />
 </header>
 
 <div class="tracks">
     <h2>Pistes</h2>
-    <PlaylistInsert items="{album.items}" forcePlay="{true}" />
 
     <ol>
         {#each album.items as item}
