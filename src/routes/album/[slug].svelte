@@ -24,15 +24,14 @@
 </svelte:head>
 
 <header>
-    <h1>{album.album}</h1>
-    <h2><a href="/artist/{album.mb_albumartistid}">{album.albumartist}</a></h2>
+        <img class="cover" src="https://k7.buron.coffee/api/album/{album.id}/art" alt="{album.album} cover" />
+    <h1 class="album">{album.album}</h1>
+    <h2 class="artist"><a href="/artist/{album.mb_albumartistid}">{album.albumartist}</a></h2>
 
-    <img class="cover" src="https://k7.buron.coffee/api/album/{album.id}/art" alt="{album.album} cover" />
-    <ul class="details">
-        <li><strong>Date: </strong>{album.original_year}</li>
-        <li><strong>MusicBrainz: </strong> <a href="https://musicbrainz.org/release/{album.mb_albumid}">{album.mb_albumid}</a></li>
-    </ul>
-    <PlaylistControllers items={album.items} />
+    <p class="year">{album.original_year}</p>
+    <div class="controls-wrapper">
+        <PlaylistControllers items={album.items} />
+    </div>
 </header>
 
 <div class="tracks">
@@ -57,13 +56,36 @@
 </div>
 
 <style>
- .details {
-     display: inline-block;
- }
- .cover {
-     max-width: 20em;
+
+ header {
+     text-align: center;
  }
 
+ .cover {
+     margin-bottom: 1.7em;
+     box-shadow: 10px 10px 5px gray;
+     max-width: 15em;
+ }
+ 
+ header .controls-wrapper {
+     text-align: center;
+ }
+
+ .album {
+     font-size: 2em;
+     font-weight: bold;
+     margin-bottom: .3em;
+ }
+ 
+ .artist {
+     font-size: 1.5em;
+     margin-bottom: .2em;
+ }
+
+ .year {
+     margin-top: 0;
+ }
+ 
  .tracks {
      margin-top: 2em;
  }
