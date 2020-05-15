@@ -21,7 +21,6 @@
  }
 
  .control {
-     margin: .8em;
      flex-basis: 2.2em;
  }
 </style>

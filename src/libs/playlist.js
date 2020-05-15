@@ -54,11 +54,11 @@ export default class playlist {
   }
 
   pause (paused) {
-    this.paused = paused
-    if (!this.paused &&
+    if (!paused &&
       this.playingIndex === undefined) {
       this.playingIndex = (this.queue.length) ? 0 : undefined
     }
+    this.paused = (this.playingIndex !== undefined) ? paused : true
     return this.emitPlayStateUpdate()
   }
 
