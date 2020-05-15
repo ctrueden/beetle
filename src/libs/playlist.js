@@ -59,7 +59,6 @@ export default class playlist {
       this.playingIndex === undefined) {
       this.playingIndex = (this.queue.length) ? 0 : undefined
     }
-    console.log(this.playingIndex === undefined)
     return this.emitPlayStateUpdate()
   }
 

@@ -3,9 +3,8 @@
  import Playlist from './Playlist.svelte'
  import Item from './Item.svelte'
  import PL from '../libs/playlist'
- export let playlist = new PL()
+ export let playlist
 
- let playlistUpdater = getContext('playlistUpdater')
 
  let currentTime
  let duration
@@ -14,27 +13,29 @@
  let openedPlaylist = false
  let paused = true
  let playingItem = undefined
-
- const insert = function(items) {
-     for(let item of items) {
-         playlist.add(item)
-     }
- }
+ let songid = undefined
 
  const playStateListener = function (state) {
-     const previousId = (playingItem) ? playingItem.id : undefined
-     playingItem = (state.current) ? state.current.item : undefined
+     if (state.current) {
+
+         playingItem = state.current.item
+
+         if (state.current.songid !== songid) {
+             audioElt.currentTime = 0
+             audioElt.load()
+         }
+
+         songid = state.current.songid
+     } else {
+         audioElt.currentTime = 0
+         audioElt.pause()
+         currentTime = NaN
+         playingItem = undefined
+         songid = undefined
+     }
+
      paused = state.paused
 
-     if (!playingItem) {
-         currentTime = NaN
-     }
-     
-     if (playingItem &&
-         previousId !== playingItem.id) {
-         audioElt.load()
-     }
-     
      if (paused) {
          audioElt.pause()
      } else {
@@ -43,8 +44,6 @@
  } 
 
  onMount(() => {
-     playlistUpdater.register(insert)
-     playlistUpdater.registerPlay(() => playlist.pause(false))
      playlist.registerPlayStateListener(playStateListener)
  })
 
@@ -176,6 +175,7 @@
      flex-shrink: 0;
      flex-grow: 0;
      width: 100%;
+     padding: .3em;
  }
  
  .controls {
@@ -190,7 +190,8 @@
      align-items: center;
      justify-content: space-between;
      fill: black;
-     width: 3.3em;
+     width: 2.2em;
+     cursor: pointer;
  }
 
  .control button {
@@ -205,7 +206,6 @@
 
  .toggle-playlist.controls {
      justify-content: flex-end;
-     padding-right: 1em;
  }
  
  .toggle-playlist input {

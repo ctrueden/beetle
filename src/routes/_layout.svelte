@@ -1,12 +1,13 @@
 <script>
  import Nav from '../components/Nav.svelte'
  import Player from '../components/Player.svelte'
- import PlaylistUpdater from '../libs/playlistUpdater'
+ import Playlist from '../libs/playlist'
  import {setContext} from 'svelte';
  
  export let segment;
+ export let playlist = new Playlist()
 
- setContext('playlistUpdater', new PlaylistUpdater())
+ setContext('playlist', playlist)
 </script>
 
 <style>
@@ -27,4 +28,4 @@
     <slot></slot>
 </main>
 
-<Player />
+<Player playlist="{playlist}" />

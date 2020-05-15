@@ -17,10 +17,11 @@
 <style>
  .controls {
      display:flex;
-     height: 4em;
+     height: 2.2em;
  }
 
  .control {
-     flex-basis: 4em;
+     margin: .8em;
+     flex-basis: 2.2em;
  }
 </style>

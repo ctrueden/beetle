@@ -52,4 +52,8 @@
  .cover {
      max-width: 20em;
  }
+
+ .tracks {
+     margin-top: 2em;
+ }
 </style>

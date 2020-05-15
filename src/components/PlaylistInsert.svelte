@@ -4,19 +4,25 @@
  export let items;
  export let forcePlay = false;
 
- const playlistUpdater = getContext('playlistUpdater')
+ const playlist = getContext('playlist')
 
  const handleClick = function(e) {
-     playlistUpdater.insert(items)
+     let firstObj
+     for (let item of items) {
+         if (!firstObj) {
+             firstObj = playlist.add(item)
+         } else {
+             playlist.add(item)
+         }
+     }
 
      if (forcePlay) {
-         playlistUpdater.play()
+         playlist.playid(firstObj.songid)
      }
  }
 </script>
 
-
-<button on:click="{handleClick}">
+<button on:click="{handleClick}" type="button">
     {#if forcePlay}
     <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
         <title>play</title>

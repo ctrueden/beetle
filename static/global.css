@@ -34,6 +34,17 @@ code {
     border-radius: 2px;
 }
 
+button {
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
 @media (min-width: 400px) {
     body {
 	font-size: 16px;
