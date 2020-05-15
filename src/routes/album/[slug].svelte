@@ -38,7 +38,7 @@
 <div class="tracks">
     <h2>Pistes</h2>
     <div class="tracklist">
-        {#each album.items as item}
+        {#each album.items.sort((a,b) => b.track < a.track) as item}
             <div class="track">
                 <div class="first-wrapper">
                     <div class="number">
