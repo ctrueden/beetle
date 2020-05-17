@@ -1,8 +1,8 @@
 {
 	"background_color": "#ffffff",
 	"theme_color": "#333333",
-	"name": "TODO",
-	"short_name": "TODO",
+	"name": "K7",
+	"short_name": "K7",
 	"display": "minimal-ui",
 	"start_url": "/",
 	"icons": [
