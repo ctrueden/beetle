@@ -19,7 +19,8 @@ export default {
 		output: config.client.output(),
 		plugins: [
 			replace({
-				'process.browser': true,
+                                 FOO: 'test',
+			        'process.browser': true,
 				'process.env.NODE_ENV': JSON.stringify(mode)
 			}),
 			svelte({

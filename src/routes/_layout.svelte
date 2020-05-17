@@ -3,7 +3,7 @@
  import Player from '../components/Player.svelte'
  import Playlist from '../libs/playlist'
  import {setContext} from 'svelte';
- 
+
  export let segment;
  export let playlist = new Playlist()
 

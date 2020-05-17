@@ -15,7 +15,9 @@
 
 <nav>
     <ul>
-	<li><a aria-current='{segment === undefined ? "page" : undefined}' href='.'>home</a></li>
+	<li><a aria-current='{segment === undefined ? "page" : undefined}' href='.'>
+            <img src="/logo-192.png" class="logo" alt="logo" />
+        </a></li>
 	<!-- <li><a aria-current='{segment === "about" ? "page" : undefined}' href='about'>about</a></li> -->
 
 	<!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
@@ -34,6 +36,11 @@
      padding: 0 1em;
  }
 
+
+ .logo {
+     width: 3em;
+     margin: -1em 0;
+ }
  .search {
      max-width: 50%;
      margin: 1em;
@@ -78,4 +85,6 @@
      padding: 1em 0.5em;
      display: block;
  }
+
+ 
 </style>
