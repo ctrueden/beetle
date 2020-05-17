@@ -2,7 +2,7 @@
  export async function preload({ params, query }) {
      // the `slug` parameter is available because
      // this file is called [slug].svelte
-     const res = await this.fetch(`https://k7.buron.coffee/api/album/${params.slug}?expand`);
+     const res = await this.fetch(process.env.BEETLE_API + `/album/${params.slug}?expand`);
 
      const data = await res.json();
      if (res.status === 200) {
@@ -24,7 +24,7 @@
 </svelte:head>
 
 <header>
-        <img class="cover" src="https://k7.buron.coffee/api/album/{album.id}/art" alt="{album.album} cover" />
+        <img class="cover" src="{process.env.BEETLE_API}/album/{album.id}/art" alt="{album.album} cover" />
     <h1 class="album">{album.album}</h1>
     <h2 class="artist"><a href="/artist/{album.mb_albumartistid}">{album.albumartist}</a></h2>
 

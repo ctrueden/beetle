@@ -1,6 +1,6 @@
 <script context="module">
  export function preload({ params, query }) {
-     return this.fetch('https://k7.buron.coffee/api/item/').then(r => r.json()).then(items => {
+     return this.fetch(process.env.BEETLE_API + '/item/').then(r => r.json()).then(items => {
          console.log(Object.keys(items))
 	 return { items: items.items };
      });

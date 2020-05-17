@@ -133,7 +133,7 @@
     </div>
     <audio on:ended="{handleNext}" bind:this="{audioElt}" bind:currentTime bind:duration>
         {#if playingItem}
-            <source src="https://k7.buron.coffee/api/item/{playingItem.id}/file">
+            <source src="{process.env.BEETLE_API}/item/{playingItem.id}/file">
         {/if}
     </audio>
 </div>

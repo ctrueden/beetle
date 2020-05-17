@@ -1,6 +1,6 @@
 <script context="module">
  export function preload({ params, query }) {
-     return this.fetch('https://k7.buron.coffee/api/album/query/added-').then(r => r.json()).then(albums => {
+     return this.fetch(process.env.BEETLE_API + '/album/query/added-').then(r => r.json()).then(albums => {
 	 return { albums: albums.results };
      });
  }

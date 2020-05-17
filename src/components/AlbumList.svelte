@@ -43,7 +43,7 @@
 	     waiting for the 'click' event -->
         <div class="card">
             <a href='album/{album.id}'>
-                <img class="poster" src="https://k7.buron.coffee/api/album/{album.id}/art" alt="{album.album} cover" />
+                <img class="poster" src="{process.env.BEETLE_API}/album/{album.id}/art" alt="{album.album} cover" />
             </a>
             <p class="album"><a href="/album/{album.id}">{album.album}</a></p>
             <p class="artist"> <a href="/artist/{album.mb_albumartistid}">{album.albumartist}</a></p>

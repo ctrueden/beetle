@@ -2,8 +2,8 @@
  export function preload({ params, query }) {
 
      const p = Promise.all([
-         this.fetch('https://k7.buron.coffee/api/album/query/' + params.slug).then(r => r.json()),
-         this.fetch('https://k7.buron.coffee/api/item/query/' + params.slug).then(r => r.json())
+         this.fetch(process.env.BEETLE_API + '/album/query/' + params.slug).then(r => r.json()),
+         this.fetch(process.env.BEETLE_API + '/item/query/' + params.slug).then(r => r.json())
      ])
      
      return p.then(answers => {

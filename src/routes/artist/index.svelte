@@ -1,6 +1,6 @@
 <script context="module">
  export function preload({ params, query }) {
-     return this.fetch('https://k7.buron.coffee/api/album/').then(r => r.json()).then(albums => {
+     return this.fetch(process.env.BEETLE_API + '/album/').then(r => r.json()).then(albums => {
 	 return { albums: albums.albums };
      });
  }
@@ -12,7 +12,7 @@
  const initialAlbums = albums
  
  function search(query) {
-     return fetch('https://k7.buron.coffee/api/album/query/' + query)
+     return fetch(process.env.BEETLE_API + '/album/query/' + query)
          .then(r => r.json())
          .then(res => {
              console.log(res)
@@ -57,7 +57,7 @@
 	     waiting for the 'click' event -->
 	<div class="card">
             <a rel='prefetch' href='album/{album.id}'>
-                <img class="poster" src="https://k7.buron.coffee/api/album/{album.id}/art" alt="{album.album} cover" />
+                <img class="poster" src="{process.env.BEETLE_API}/album/{album.id}/art" alt="{album.album} cover" />
                 <p>{album.album}</p>
             </a>
         </div>

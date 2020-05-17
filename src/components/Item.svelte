@@ -25,7 +25,7 @@
         {#if albumDisplayed}
             <div class="album">
                 <a href="{albumLink}">
-                    <img src="https://k7.buron.coffee/api/album/{item.album_id}/art" alt="{item.album}" />
+                    <img src="{process.env.BEETLE_API}/album/{item.album_id}/art" alt="{item.album}" />
                 </a>
             </div>
         {/if}

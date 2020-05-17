@@ -2,7 +2,7 @@
  export async function preload({ params, query }) {
      // the `slug` parameter is available because
      // this file is called [slug].svelte
-     return this.fetch(`https://k7.buron.coffee/api/item/query/mb_artistid::${params.slug}`)
+     return this.fetch(process.env.BEETLE_API + `/item/query/mb_artistid::${params.slug}`)
                 .then(r => r.json()).then(res => {
 	            return { items: res.results };
                 });
@@ -46,7 +46,7 @@ let albumOfTracks = function(items) {
 	     waiting for the 'click' event -->
 	<div class="card">
             <a rel='prefetch' href='album/{album.id}'>
-                <img class="poster" src="https://k7.buron.coffee/api/album/{album.id}/art" alt="{album.album} cover" />
+                <img class="poster" src="{process.env.BEETLE_API}/album/{album.id}/art" alt="{album.album} cover" />
                 <p>{album.album}</p>
             </a>
         </div>

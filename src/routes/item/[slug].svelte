@@ -2,7 +2,7 @@
  export async function preload({ params, query }) {
      // the `slug` parameter is available because
      // this file is called [slug].svelte
-     const res = await this.fetch(`https://k7.buron.coffee/api/item/${params.slug}`);
+     const res = await this.fetch(process.env.BEETLE_API + `/item/${params.slug}`);
 
      const data = await res.json();
      if (res.status === 200) {

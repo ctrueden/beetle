@@ -1,6 +1,6 @@
 <script context="module">
  export function preload({ params, query }) {
-     return this.fetch('https://k7.buron.coffee/api/album/').then(r => r.json()).then(albums => {
+     return this.fetch( process.env.BEETLE_API + '/album/').then(r => r.json()).then(albums => {
 	 return { albums: albums.albums };
      });
  }
@@ -15,9 +15,10 @@
  let results = undefined
  
  function search(query) {
-     return fetch('https://k7.buron.coffee/api/album/query/' + query)
+     return fetch(process.env.BEETLE_API + '/album/query/' + query)
          .then(r => r.json())
          .then(res => {
+             console.log(res)
 	     results = res.results
          });
  }
