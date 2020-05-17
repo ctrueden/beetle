@@ -5,9 +5,11 @@
 
  let handleSearch = function(event) {
      const query = event.detail
-     const location = '/search/' + encodeURI(query)
-     goto(location)
- }
+     if (query) {
+         const location = '/search/' + encodeURI(query)
+         goto(location)
+     }
+}
 </script>
 
 
