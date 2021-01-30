@@ -19,6 +19,8 @@
  })
  
  const handleRemove = function(event) {
+     // prevent to trigger handleClick for playing !
+     event.stopPropagation()
      const songid = parseInt(event.currentTarget.dataset.songid)
      playlist.deleteid(songid)
  }
