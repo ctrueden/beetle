@@ -2,8 +2,7 @@
 
 Beetle is a web interface for a music library in [Beets](https://github.com/beetbox/beets) build using [sapper](https://sapper.svelte.dev/).
 
-
-[video](https://owncloud.cheredeprince.net/s/vqujSBUdbx54omz)
+![video](https://book.buron.coffee/notes/img/beetle-demo.mp4)
 
 ## Installation
 
