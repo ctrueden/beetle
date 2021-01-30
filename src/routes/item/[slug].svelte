@@ -38,7 +38,7 @@
 </header>
 {#if item.lyrics}
     <div class="lyrics">
-        <h2>Paroles</h2>
+        <h2>Lyrics</h2>
         <p>{@html htmlLyrics(item.lyrics)}</p>
     </div>
 {/if}

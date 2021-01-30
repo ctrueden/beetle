@@ -14,9 +14,9 @@
 </script>
 
 <svelte:head>
-    <title>K7</title>
+    <title>Beetle</title>
 </svelte:head>
 
-<h2>Albums Récents</h2>
+<h2>Recent Albums</h2>
 
 <AlbumList albumList={albums} />
