@@ -22,7 +22,7 @@
 
 	<!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
 	     the blog data when we hover over the link or tap it on a touchscreen -->
-	<li><a  aria-current='{segment === "album" ? "page" : undefined}' href='album'>albums</a></li>
+	<li><a  aria-current='{(segment === "artist" || segment === "artistIndex") ? "page" : undefined}' href='artistIndex/A'>artists</a></li>
     </ul>
     <div class="search">
         <Search on:search="{handleSearch}" />
