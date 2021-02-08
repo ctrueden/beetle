@@ -8,6 +8,7 @@ Beetle is a web interface for a music library in [Beets](https://github.com/beet
 
 ```
 git clone https://gitlab.com/maxburon/beetle.git
+cd beetle
 npm install
 ```
 
@@ -39,6 +40,10 @@ convert:
 ```
 
 Also copy the content of ~.env.source~ into ~.env~ and edit it, if you need.
+
+```
+cp .env.source .env
+```
 
 ## Running
 
