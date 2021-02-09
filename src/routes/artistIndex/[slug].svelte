@@ -12,7 +12,7 @@
          selections[letter.toUpperCase()] = '(' + letter + '|' + letter.toUpperCase() + ')'
      }
      
-     return this.fetch(process.env.BEETLE_API + '/album/query/albumartist::^'+ selections[selectionName])
+     return this.fetch(process.env.BEETLE_API + '/album/query/albumartist_sort::^'+ selections[selectionName])
                 .then(r => r.json())
                 .then(albums => {
 	            return {
