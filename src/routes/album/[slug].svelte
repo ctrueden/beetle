@@ -26,7 +26,7 @@
 <header>
         <img class="cover" src="{process.env.BEETLE_API}/album/{album.id}/art" alt="{album.album} cover" />
     <h1 class="album">{album.album}</h1>
-    <h2 class="artist"><a href="/artist/{album.mb_albumartistid}">{album.albumartist}</a></h2>
+    <h2 class="artist"><a href="./artist/{album.mb_albumartistid}">{album.albumartist}</a></h2>
 
     <p class="year">{album.original_year}</p>
     <div class="controls-wrapper">

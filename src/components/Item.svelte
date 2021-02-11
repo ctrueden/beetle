@@ -4,9 +4,9 @@
  export let albumDisplayed = false
  export let durationDisplayed = true
 
- $: itemLink = "/item/" + item.id
- $: artistLink = "/artist/" + item.mb_artistid
- $: albumLink = "/album/" + item.album_id
+ $: itemLink = "./item/" + item.id
+ $: artistLink = "./artist/" + item.mb_artistid
+ $: albumLink = "./album/" + item.album_id
 
  const getMinute = function(seconds) {
      return Math.floor(seconds/60) 

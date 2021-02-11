@@ -56,6 +56,6 @@ Into another terminal, go the cloned directory of beetle and run:
 npm run dev
 # or for production
 npm run build
-BEETLE_API=http://localhost:8337 npm run start
+npm run start
 ```
 and visit <http://localhost:3000>

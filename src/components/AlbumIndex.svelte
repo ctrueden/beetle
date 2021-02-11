@@ -5,7 +5,7 @@
 <ul class="index">
     {#each "abcdefghijklmnopqrstuvwxyz#".split("") as letter}
         <li class="letter" aria-current='{(selectionName === letter.toUpperCase()) ? "page" : undefined}'>
-            <a href="/artistIndex/{encodeURIComponent(letter)}" >{letter.toUpperCase()}</a>
+            <a href="./artistIndex/{encodeURIComponent(letter)}" >{letter.toUpperCase()}</a>
         </li>
     {/each}
 </ul>

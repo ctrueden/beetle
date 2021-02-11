@@ -42,11 +42,11 @@
 	     the user hovers over the link or taps it, instead of
 	     waiting for the 'click' event -->
         <div class="card">
-            <a href='album/{album.id}'>
+            <a href="./album/{album.id}">
                 <img class="poster" src="{process.env.BEETLE_API}/album/{album.id}/art" alt="{album.album} cover" />
             </a>
-            <p class="album"><a href="/album/{album.id}">{album.album}</a></p>
-            <p class="artist"> <a href="/artist/{album.mb_albumartistid}">{album.albumartist}</a></p>
+            <p class="album"><a href="./album/{album.id}">{album.album}</a></p>
+            <p class="artist"> <a href="./artist/{album.mb_albumartistid}">{album.albumartist}</a></p>
         </div>
     {/each}
     <div class="bottom" bind:this="{bottomElt}"></div>

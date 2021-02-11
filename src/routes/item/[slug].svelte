@@ -29,8 +29,8 @@
 <header>
     <h1>{item.title}</h1>
     <ul>
-        <li><strong>Album: </strong> <a href="/album/{item.album_id}">{item.album}</a></li>
-        <li><strong>Artist: </strong> <a href="/artist/{item.mb_artistid}">{item.artist}</a></li>
+        <li><strong>Album: </strong> <a href="./album/{item.album_id}">{item.album}</a></li>
+        <li><strong>Artist: </strong> <a href="./artist/{item.mb_artistid}">{item.artist}</a></li>
         <li><strong>Date: </strong>{item.original_year}</li>
         <!-- <li><strong>MusicBrainz: </strong> <a href="https://musicbrainz.org/track/{item.mb_trackid}">{item.mb_albumid}</a></li> -->
     </ul>

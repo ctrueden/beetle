@@ -6,7 +6,7 @@
  let handleSearch = function(event) {
      const query = event.detail
      if (query) {
-         const location = '/search/' + encodeURI(query)
+         const location = './search/' + encodeURI(query)
          goto(location)
      }
 }
@@ -16,13 +16,13 @@
 <nav>
     <ul>
 	<li><a aria-current='{segment === undefined ? "page" : undefined}' href='.'>
-            <img src="/logo-192.png" class="logo" alt="logo" />
+            <img src="./logo-192.png" class="logo" alt="logo" />
         </a></li>
 	<!-- <li><a aria-current='{segment === "about" ? "page" : undefined}' href='about'>about</a></li> -->
 
 	<!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
 	     the blog data when we hover over the link or tap it on a touchscreen -->
-	<li><a  aria-current='{(segment === "artist" || segment === "artistIndex") ? "page" : undefined}' href='artistIndex/A'>artists</a></li>
+	<li><a  aria-current='{(segment === "artist" || segment === "artistIndex") ? "page" : undefined}' href='./artistIndex/A'>artists</a></li>
     </ul>
     <div class="search">
         <Search on:search="{handleSearch}" />
