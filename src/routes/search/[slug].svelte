@@ -27,10 +27,10 @@
 </script>
 
 <svelte:head>
-    <title>Résultat pour "{query}"</title>
+    <title>Results for "{query}"</title>
 </svelte:head>
 
-<h1>Résultat pour "{query}"</h1>
+<h1>Results for "{query}"</h1>
 
 {#if albums.length}
     <h2>Albums</h2>
