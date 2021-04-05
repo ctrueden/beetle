@@ -15,6 +15,7 @@
 
 <script>
  import PlaylistControllers from '../../components/PlaylistControllers.svelte'
+ import fileUrl from '../../libs/file-url'
  export let item;
  
  function htmlLyrics(text) {
@@ -35,7 +36,7 @@
         <!-- <li><strong>MusicBrainz: </strong> <a href="https://musicbrainz.org/track/{item.mb_trackid}">{item.mb_albumid}</a></li> -->
     </ul>
     <PlaylistControllers items="{[item]}" />
-    <a href="{process.env.BEETLE_API}/item/{item.id}/file" download>download</a>
+    <a href="{fileUrl(item)}" download>download</a>
 </header>
 {#if item.lyrics}
     <div class="lyrics">
