@@ -39,7 +39,7 @@ convert:
         format: mp3
 ```
 
-Also copy the content of ~.env.source~ into ~.env~ and edit it, if you need.
+Also copy the content of `.env.source` into `.env` and edit it, if you need.
 
 ```
 cp .env.source .env
