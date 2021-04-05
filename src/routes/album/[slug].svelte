@@ -24,7 +24,7 @@
 </svelte:head>
 
 <header>
-        <img class="cover" src="{process.env.BEETLE_API}/album/{album.id}/art" alt="{album.album} cover" />
+    <img class="cover" src="{process.env.BEETLE_API}/album/{album.id}/art" alt="{album.album} cover" />
     <h1 class="album">{album.album}</h1>
     <h2 class="artist"><a href="./artist/{album.mb_albumartistid}">{album.albumartist}</a></h2>
 

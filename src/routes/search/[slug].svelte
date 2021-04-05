@@ -23,8 +23,7 @@
 
  import AlbumList from '../../components/AlbumList.svelte'
  import Item from '../../components/Item.svelte'
-
- 
+ import PlaylistControllers from '../../components/PlaylistControllers.svelte'
 </script>
 
 <svelte:head>
@@ -34,11 +33,15 @@
 <h1>Résultat pour "{query}"</h1>
 
 {#if albums.length}
-<h2>Albums</h2>
-<AlbumList albumList={albums} />
+    <h2>Albums</h2>
+    <AlbumList albumList={albums} />
 {/if}
 
+
 {#if items.length}
+    <div class="controls-wrapper">
+        <PlaylistControllers items={items} />
+    </div>
     <h2>Pistes</h2>
     {#each items as item}
         <Item item="{item}"/>
