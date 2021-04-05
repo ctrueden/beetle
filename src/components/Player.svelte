@@ -3,6 +3,7 @@
  import Playlist from './Playlist.svelte'
  import Item from './Item.svelte'
  import PL from '../libs/playlist'
+ import fileUrl from '../libs/file-url'
  import Mime from '../libs/audio-mime-type'
  export let playlist
 
@@ -134,7 +135,7 @@
     </div>
     <audio on:ended="{handleNext}" bind:this="{audioElt}" bind:currentTime bind:duration>
         {#if playingItem}
-            <source src="{process.env.BEETLE_API}/item/{playingItem.id}/file" type="{Mime(playingItem.format)}">
+            <source src="{fileUrl(playingItem)}" type="{Mime(playingItem.format)}">
         {/if}
     </audio>
 </div>

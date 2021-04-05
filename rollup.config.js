@@ -23,9 +23,11 @@ export default {
 		output: config.client.output(),
 		plugins: [
 		  replace({
-                                'process.env.BEETLE_API': "'" + process.env.BEETLE_API + "'",
-			        'process.browser': true,
-				'process.env.NODE_ENV': JSON.stringify(mode)
+                    'process.env.BEETLE_API': "'" + process.env.BEETLE_API + "'",
+                    'process.env.BEETLE_FILES_URL': "'" + process.env.BEETLE_FILES_URL + "'",
+                    'process.env.BEETLE_FILES_DIR': "'" + process.env.BEETLE_FILES_DIR + "'",
+		    'process.browser': true,
+		    'process.env.NODE_ENV': JSON.stringify(mode)
 			}),
 			svelte({
 				dev,
