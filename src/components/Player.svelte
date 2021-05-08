@@ -10,7 +10,7 @@
 
  let currentTime = 1
  let duration = 1
- $: percent = 100* (currentTime / duration) || 100
+ $: percent = 100* (Math.round(currentTime) / duration) || 0
  let audioElt
  let openedPlaylist = false
  let paused = true
