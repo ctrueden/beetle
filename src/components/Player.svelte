@@ -8,9 +8,9 @@
  export let playlist
 
 
- let currentTime
- let duration
- $: percent = 100* (currentTime/duration)
+ let currentTime = 1
+ let duration = 1
+ $: percent = 100* (currentTime / duration) || 100
  let audioElt
  let openedPlaylist = false
  let paused = true
@@ -70,6 +70,10 @@
      playlist.next()
  }
 
+ const handleSeekTo = function(e) {
+     currentTime = e.target.valueAsNumber
+ }
+
  function setMediaSession(item) {
      if ('mediaSession' in navigator) {
          navigator.mediaSession.metadata = new MediaMetadata({
@@ -97,9 +101,8 @@
     <div class="playlist">
         <Playlist playlist="{playlist}"  />
     </div>
-    <div class="bar-wrapper">
-        <div class="bar" style="width: {percent}%">
-        </div>
+    <div class="bar-wrapper" style="--seek-before-width : {percent}%">
+        <input type="range" id="seeker"  value="{currentTime}" max="{duration}" on:input="{handleSeekTo}" />
     </div>
     <div class="bottom">
         <div class="current controls">
@@ -164,9 +167,6 @@
 </div>
 
 <style>
-
- 
- 
  #player {
      display: flex;
      flex-direction: column;
@@ -185,13 +185,100 @@
 
  .bar-wrapper {
      width: 100%;
+     --seek-before-width: 0%;
  }
  
- .bar {
-     background-color: red;
-     height: .2em;
+ #seeker {
+     width: 100%;
+     height: 1em;
+     top: -.52em;
+     background: none;
+     -webkit-appearance: none;
+     margin: 0;
+     padding: 0;
+     outline: none;
+     position: absolute;
+     cursor: pointer;
  }
 
+ #seeker::-webkit-slider-runnable-track {
+     width: 100%;
+     height: .2em;
+     cursor: pointer;
+ }
+
+ #seeker::before {
+     position: absolute;
+     content: "";
+     left: 0;
+     width: var(--seek-before-width);
+     height: .2em;
+     top: .4em;
+     background-color: red;
+     cursor: pointer;
+ }
+
+ #seeker::-webkit-slider-thumb {
+     position: relative;
+     -webkit-appearance: none;
+     box-sizing: content-box;
+     border: 1px solid white;
+     height: 15px;
+     width: 15px;
+     border-radius: 50%;
+     background-color: red;
+     cursor: pointer;
+     margin: -7px 0 0 0;
+ }
+
+ #seeker:active::-webkit-slider-thumb {
+     transform: scale(1.2);
+     background: red;
+ }
+
+ #seeker::-moz-range-progress {
+     background-color: red;
+ }
+
+ #seeker::-moz-focus-outer {
+     border: 0;
+ }
+
+ #seeker::-moz-range-thumb {
+     box-sizing: content-box;
+     border: 1px solid white;
+     height: 15px;
+     width: 15px;
+     border-radius: 50%;
+     background-color: red;
+     cursor: pointer;
+ }
+
+ #seeker:active::-moz-range-thumb {
+     transform: scale(1.2);
+     background: red;
+ }
+
+
+ #seeker::-ms-fill-lower {
+     background-color: red;
+ }
+
+ #seeker::-ms-thumb {
+     box-sizing: content-box;
+     border: 1px solid white;
+     height: 15px;
+     width: 15px;
+     border-radius: 50%;
+     background-color: red;
+     cursor: pointer;
+ }
+
+ #seeker:active::-ms-thumb {
+     transform: scale(1.2);
+     background: red;
+ }
+ 
  .bottom {
      display: flex;
      flex-direction: row;
