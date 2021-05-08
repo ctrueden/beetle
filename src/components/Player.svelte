@@ -21,12 +21,12 @@
      if (state.current) {
 
          playingItem = state.current.item
+         setMediaSession(playingItem)
 
          if (state.current.songid !== songid) {
              audioElt.currentTime = 0
              audioElt.load()
          }
-
          songid = state.current.songid
      } else {
          audioElt.currentTime = 0
@@ -47,6 +47,7 @@
 
  onMount(() => {
      playlist.registerPlayStateListener(playStateListener)
+     initMediaSession()
  })
 
  const togglePlay = function () {
@@ -67,6 +68,28 @@
 
  const handleNext = function(e) {
      playlist.next()
+ }
+
+ function setMediaSession(item) {
+     if ('mediaSession' in navigator) {
+         navigator.mediaSession.metadata = new MediaMetadata({
+             title: item.title,
+             artist: item.artist,
+             album: item.album,
+             artwork: [
+                 { src: process.env.BEETLE_API + '/album/' + item.album_id + '/art',   sizes: '300x300',   type: 'image/jpeg' }
+             ]
+         });
+     }
+ }
+
+ function initMediaSession() {
+     if ('mediaSession' in navigator) {
+         navigator.mediaSession.setActionHandler('play', handlePlay);
+         navigator.mediaSession.setActionHandler('pause', handlePlay);
+         navigator.mediaSession.setActionHandler('previoustrack', handlePrevious);
+         navigator.mediaSession.setActionHandler('nexttrack', handleNext);
+     }
  }
 </script>
 
