@@ -15,7 +15,8 @@
 
 <script>
  import PlaylistControllers from '../../components/PlaylistControllers.svelte'
- import Item from '../../components/Item.svelte'
+ import TrackList from '../../components/TrackList.svelte'
+
  export let album;
 </script>
 
@@ -36,108 +37,42 @@
 
 <div class="tracks">
     <h2>Pistes</h2>
-    <div class="tracklist">
-        {#each album.items.sort((a,b) => b.track < a.track) as item}
-            <div class="track">
-                <div class="first-wrapper">
-                    <div class="number">
-                        {item.track}
-                    </div>
-                    <div class="controls-wrapper">
-                        <PlaylistControllers items={[item]} />
-                    </div>
-                </div>
-                <div class="item-wrapper">
-                    <Item item="{item}"/>
-                </div>
-            </div>
-        {/each}
-    </div>
+    <TrackList tracklist="{album.items.sort((a,b) => b.track < a.track)}" />
 </div>
 
 <style>
 
- header {
-     text-align: center;
- }
+    header {
+    text-align: center;
+    }
 
- .cover {
-     margin-bottom: 1.7em;
-     box-shadow: 10px 10px 5px gray;
-     max-width: 15em;
- }
- 
- header .controls-wrapper {
-     text-align: center;
- }
+    .cover {
+    margin-bottom: 1.7em;
+    box-shadow: 10px 10px 5px gray;
+    max-width: 15em;
+    }
+    
+    header .controls-wrapper {
+    text-align: center;
+    }
 
- .album {
-     font-size: 2em;
-     font-weight: bold;
-     margin-bottom: .3em;
- }
- 
- .artist {
-     font-size: 1.5em;
-     margin-bottom: .2em;
- }
+    .album {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: .3em;
+    }
+    
+    .artist {
+    font-size: 1.5em;
+    margin-bottom: .2em;
+    }
 
- .year {
-     margin-top: 0;
- }
- 
- .tracks {
-     margin-top: 2em;
- }
+    .year {
+    margin-top: 0;
+    }
+    
+    .tracks {
+    margin-top: 2em;
+    }
 
- .track {
-     display: flex;
-     align-content: baseline;
-     width: 100%;
-     border-bottom: 1px solid gray;
- }
-
- .track:last-child {
-     border-bottom: none;
- }
-
- .track .first-wrapper {
-     display: flex;
-     flex-basis: 4em;
-     flex-grow: 0;
-     flex-shrink: 0;
-     align-items: stretch;
- }
-
- .track .number {
-     display: flex;
-     color: white;
-     flex-grow: 1;
-     background-color: black;
-     font-weight: bold;
-     align-items:  center;
-     justify-content: center;
- }
-
- .track:hover .number {
-     display: none;
- }
-
- .track .controls-wrapper {
-     display:none;
- }
-
- .track:hover .controls-wrapper {
-     display: flex;
-     align-items:  center;
-     justify-content: center;
- }
-
- .track .item-wrapper {
-     flex-grow: 1;
- }
-
- .item-wrapper {
-     padding: 0 1em;
- }
 </style>
