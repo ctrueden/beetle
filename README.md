@@ -39,6 +39,8 @@ convert:
         format: mp3
 ```
 
+If you are interested in using playlists, you should also consider installing [the playlist plugin](https://beets.readthedocs.io/en/stable/plugins/playlist.html). 
+
 Also copy the content of `.env.source` into `.env` and edit it, if you need.
 
 ```
