@@ -23,6 +23,9 @@
 	<!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
 	     the blog data when we hover over the link or tap it on a touchscreen -->
 	<li><a  aria-current='{(segment === "artist" || segment === "artistIndex") ? "page" : undefined}' href='./artistIndex/A'>artists</a></li>
+        {#if process.env.BEETLE_PLAYLISTS != undefined }
+            <li><a  aria-current='{(segment === "playlist") ? "page" : undefined}' href='./playlist'>playlists</a></li>
+        {/if}
     </ul>
     <div class="search">
         <Search on:search="{handleSearch}" />

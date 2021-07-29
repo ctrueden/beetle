@@ -26,6 +26,7 @@ export default {
                     'process.env.BEETLE_API': "'" + process.env.BEETLE_API + "'",
                     'process.env.BEETLE_FILES_URL': "'" + process.env.BEETLE_FILES_URL + "'",
                     'process.env.BEETLE_FILES_DIR': "'" + process.env.BEETLE_FILES_DIR + "'",
+                    'process.env.BEETLE_PLAYLISTS': (typeof process.env.BEETLE_PLAYLISTS === "string") ? "'" + process.env.BEETLE_PLAYLISTS + "'" : undefined,
 		    'process.browser': true,
 		    'process.env.NODE_ENV': JSON.stringify(mode)
 			}),

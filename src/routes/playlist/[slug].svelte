@@ -3,7 +3,6 @@
      // the `slug` parameter is available because
      // this file is called [slug].svelte
      const url = process.env.BEETLE_API + `/item/query/playlist:${params.slug}`
-     console.log(url)
      const res = await this.fetch(url);
 
      const data = await res.json();
@@ -24,7 +23,6 @@
  export let name;
  export let tracklist;
 
- console.log(tracklist);
 </script>
 
 <svelte:head>
