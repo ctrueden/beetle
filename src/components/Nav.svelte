@@ -36,7 +36,6 @@
  nav {
      border-bottom: 1px solid rgba(255,62,0,0.1);
      font-weight: 300;
-     padding: 0 1em;
  }
 
 
@@ -44,10 +43,12 @@
      width: 3em;
      margin: -1em 0;
  }
+
  .search {
-     max-width: 50%;
-     margin: 1em;
      float: right;
+     vertical-align: top;
+     max-width: 35%;
+     margin: 1em 0;
  }
  
  ul {
@@ -89,5 +90,10 @@
      display: block;
  }
 
- 
+ @media (min-width: 400px) {
+     nav {
+         padding: 0 1em;
+     }
+ }
+
 </style>
