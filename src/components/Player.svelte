@@ -13,6 +13,7 @@
  $: percent = 100* (Math.round(currentTime) / duration) || 0
  let audioElt
  let openedPlaylist = false
+ let isPlayerHidden = true
  let paused = true
  let playingItem = undefined
  let songid = undefined
@@ -43,10 +44,15 @@
      } else {
          audioElt.play()
      }
- } 
+ }
+
+ const playlistListener = function (queue) {
+     isPlayerHidden = queue.length === 0
+ }
 
  onMount(() => {
      playlist.registerPlayStateListener(playStateListener)
+     playlist.registerPlaylistListener(playlistListener)
      initMediaSession()
  })
 
@@ -97,7 +103,7 @@
  }
 </script>
 
-<div id="player" class="{(openedPlaylist) ? 'open' : ''}">
+<div id="player" class="{(openedPlaylist) ? 'open' : ''} {(isPlayerHidden) ? 'hidden' : ''}">
     <div class="playlist">
         <Playlist playlist="{playlist}"  />
     </div>
@@ -181,6 +187,10 @@
  
  #player.open {
      top:0;
+ }
+
+ #player.hidden {
+     display: none;
  }
 
  .bar-wrapper {
