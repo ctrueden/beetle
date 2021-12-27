@@ -5,6 +5,7 @@
  export let playlist
  let queue = []
  let autoplay = true
+ let autoplaySimilar = true
  let currentId
  let randomItem
 
@@ -21,23 +22,28 @@
  const checkAutoplayState = function() {
      // if we are playing the last song of the playlist
      if(autoplay && currentId == queue[queue.length - 1].songid) {
-         randomItem.getOne()
-                   .then(item => {
-                       playlist.add(item)
-                   })
-                   .catch(e => console.log(e))
+         let promise
+         if (autoplaySimilar)
+             promise = randomItem.getSimilarOne(queue[queue.length - 1].item)
+         else
+             promise = randomItem.getOne()
+         promise.then(item => {
+             if (item)
+                 playlist.add(item)
+         }).catch(e => console.log(e))
      }
  }
  
  onMount(() => {
      autoplay = (localStorage.getItem('autoplay') != null) ? localStorage.getItem('autoplay') != 'false' : true
+     autoplaySimilar = (localStorage.getItem('autoplaySimilar') != null) ? localStorage.getItem('autoplaySimilar') != 'false' : true
      RandomItem.create()
-            .then(ri => {
-                randomItem = ri
-                playlist.registerPlaylistListener(playlistListener)
-                playlist.registerPlayStateListener(playStateListener)
-            })
-            .catch(console.log)
+               .then(ri => {
+                   randomItem = ri
+                   playlist.registerPlaylistListener(playlistListener)
+                   playlist.registerPlayStateListener(playStateListener)
+               })
+               .catch(console.log)
  })
  
  const handleRemove = function(event) {
@@ -57,15 +63,23 @@
      checkAutoplayState()
      localStorage.setItem('autoplay', autoplay)
  }
- 
+
+ const handleAutoplaySimilar = function() {
+     localStorage.setItem('autoplaySimilar', autoplaySimilar)
+ }
+
 </script>
 
 <div class="playlist-list">
     <div class="controllers">
-        <label for="autoplay">
+        <input type="checkbox" id="autoplay" value="Autoplay" bind:checked="{autoplay}" on:change="{handleAutoplay}" />
+        <label for="autoplay">
             Autoplay
         </label>
-        <input type="checkbox" id="autoplay" value="Autoplay" bind:checked="{autoplay}" on:change="{handleAutoplay}" />
+        <input type="checkbox" id="autoplay-similar" value="Autoplay similar" bind:checked="{autoplaySimilar}" on:change="{handleAutoplaySimilar}" />
+        <label for="autoplay-similar">
+            with similar genres
+        </label>
     </div>
     {#each queue as obj, index}
         <div class="row {(currentId === obj.songid) ? 'playing' : ''}" data-songid="{obj.songid}" on:click="{handleClick}">

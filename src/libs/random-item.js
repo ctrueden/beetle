@@ -2,11 +2,52 @@ export default class RandomItem {
 
   constructor(maxItemId) {
     this.maxItemId = maxItemId
+    this.maxDepth = 20
   }
 
   getOne() {
     return  RandomItem.fetchItem(this.randomItemIndex())
       .then(item => (item) ? item : this.getOne())
+  }
+
+  getSimilarOne(item, bestCandidate, depth) {
+    if (depth === undefined)
+      depth = 0
+
+    if (depth > 10)
+      return Promise.resolve(bestCandidate)
+
+    return this.getOne()
+      .then(candidate => {
+        let similarity = RandomItem.similarity(item, candidate)
+        console.log(candidate.title, similarity)
+
+        if (similarity == 1)
+          return Promise.resolve(candidate)
+
+        let bestSimilarity = (bestCandidate) ? RandomItem.similarity(item, bestCandidate) : 0
+        if (!bestCandidate || similarity > bestSimilarity) {
+          bestCandidate = candidate
+        }
+        
+        return this.getSimilarOne(item, bestCandidate, ++depth)
+      })
+  }
+  
+  getOneWithGenre(genre, depth) {
+    if (depth === undefined)
+      depth = 0
+    return this.getOne()
+      .then(item => {
+        if (depth > this.maxDepth)
+          return null
+        if (item.genre.includes(genre)) {
+          return item
+        } else {
+          return this.getOneWithGenre(genre, ++depth)
+        }
+      })
+    
   }
 
   randomItemIndex() {
@@ -22,6 +63,14 @@ export default class RandomItem {
       })
   }
 
+  static similarity(item1, item2) {
+    if (!item1.genre || !item2.genre)
+      return 0
+    const genres1 = item1.genre.split(',').map(g => g.trim())
+    const genres2 = item2.genre.split(',').map(g => g.trim())
+    return genres1.filter(value => genres2.includes(value)).length / Math.max(genres1.length, genres2.length)
+  }
+  
   static create() {
     return RandomItem.getMaxItemId()
       .then(maxItemId => {
