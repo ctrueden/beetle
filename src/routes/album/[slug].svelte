@@ -16,6 +16,7 @@
 <script>
  import PlaylistControllers from '../../components/PlaylistControllers.svelte'
  import TrackList from '../../components/TrackList.svelte'
+ import GenreList from '../../components/GenreList.svelte'
 
  export let album;
 </script>
@@ -30,7 +31,8 @@
     <h2 class="artist"><a href="./artist/{album.mb_albumartistid}">{album.albumartist}</a></h2>
 
     <p class="year">{album.original_year}</p>
-    <div class="controls-wrapper">
+    <GenreList genreString="{album.genre}" />
+        <div class="controls-wrapper">
         <PlaylistControllers items={album.items} />
     </div>
 </header>
