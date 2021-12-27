@@ -13,7 +13,7 @@
  export let items;
  let artist = (items.length) ? items[0].artist : undefined
 
-let albumOfTracks = function(items) {
+ let albumOfTracks = function(items) {
      return Object.values(items.reduce((res, it) => {
          if (!res[it.album_id])  {
              res[it.album_id] = {
@@ -24,11 +24,11 @@ let albumOfTracks = function(items) {
 
          return res
      }, {}))
-        }
-                                       
-         let albums = albumOfTracks(items.filter(it => it.mb_albumartistid == it.mb_artistid))
+ }
+ 
+ let albums = albumOfTracks(items.filter(it => (it.mb_albumartistid == it.mb_artistid) && it.album_id))
 
-         let otherTracks = []
+ let otherTracks = items.filter(it => (it.mb_albumartistid != it.mb_artistid) || !it.album_id)
 </script>
 
 <svelte:head>
@@ -37,24 +37,26 @@ let albumOfTracks = function(items) {
 
 <h1>{artist}</h1>
 
-<h2>Albums</h2>
-<div class="cards">
-    {#each albums as album}
-	<!-- we're using the non-standard `rel=prefetch` attribute to
-	     tell Sapper to load the data for the page as soon as
-	     the user hovers over the link or taps it, instead of
-	     waiting for the 'click' event -->
-	<div class="card">
-            <a rel='prefetch' href='album/{album.id}'>
-                <img class="poster" src="{process.env.BEETLE_API}/album/{album.id}/art" alt="{album.album} cover" />
-                <p>{album.album}</p>
-            </a>
-        </div>
-    {/each}
-</div>
+{#if albums.length != 0}
+    <h2>Albums</h2>
+    <div class="cards">
+        {#each albums as album}
+	    <!-- we're using the non-standard `rel=prefetch` attribute to
+	         tell Sapper to load the data for the page as soon as
+	         the user hovers over the link or taps it, instead of
+	         waiting for the 'click' event -->
+	    <div class="card">
+                <a rel='prefetch' href='album/{album.id}'>
+                    <img class="poster" src="{process.env.BEETLE_API}/album/{album.id}/art" alt="{album.album} cover" />
+                    <p>{album.album}</p>
+                </a>
+            </div>
+        {/each}
+    </div>
+{/if}
 
 {#if otherTracks.length}
-    <h2>Autre Morceaux</h2>
+    <h2>Other tracks</h2>
     <ul>
         {#each otherTracks as item}
             <li><a href="/item/{item.id}">{item.title}</a></li>
