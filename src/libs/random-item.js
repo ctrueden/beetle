@@ -72,10 +72,16 @@ export default class RandomItem {
 
     for (let genre1 of genres1) {
       for (let genre2 of genres2) {
+
+        if (genre1 == genre2) {
+          score += 1
+          continue
+        }
+
         if (genre1.includes(genre2))
-          score +=0.5
+          score += 0.25
         if (genre2.includes(genre1))
-          score +=0.5
+          score += 0.25
       }
     }
     score = score / Math.max(genres1.length, genres2.length)
