@@ -68,7 +68,21 @@ export default class RandomItem {
       return 0
     const genres1 = item1.genre.split(',').map(g => g.trim())
     const genres2 = item2.genre.split(',').map(g => g.trim())
-    return genres1.filter(value => genres2.includes(value)).length / Math.max(genres1.length, genres2.length)
+    let score = 0
+
+    for (let genre1 of genres1) {
+      for (let genre2 of genres2) {
+        if (genre1.includes(genre2))
+          score +=0.5
+        if (genre2.includes(genre1))
+          score +=0.5
+      }
+    }
+    score = score / Math.max(genres1.length, genres2.length)
+    score = Math.min(score, 1)
+    console.log(genres1, genres2, score)
+
+    return score
   }
   
   static create() {
