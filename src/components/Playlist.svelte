@@ -6,6 +6,7 @@
  let queue = []
  let autoplay = true
  let autoplaySimilar = true
+ let autoplayRange = 5
  let currentId
  let randomItem
 
@@ -24,7 +25,7 @@
      if(autoplay && currentId == queue[queue.length - 1].songid) {
          let promise
          if (autoplaySimilar)
-             promise = randomItem.getSimilarOne(queue[queue.length - 1].item)
+             promise = randomItem.getSimilarOne(queue.slice(-autoplayRange).map(pos => pos.item))
          else
              promise = randomItem.getOne()
          promise.then(item => {
@@ -37,6 +38,8 @@
  onMount(() => {
      autoplay = (localStorage.getItem('autoplay') != null) ? localStorage.getItem('autoplay') != 'false' : true
      autoplaySimilar = (localStorage.getItem('autoplaySimilar') != null) ? localStorage.getItem('autoplaySimilar') != 'false' : true
+     const parsedAutoplayRange = parseInt(localStorage.getItem('autoplayRange'))
+     autoplayRange = (parsedAutoplayRange) ? parsedAutoplayRange : autoplayRange
      RandomItem.create()
                .then(ri => {
                    randomItem = ri
@@ -68,6 +71,9 @@
      localStorage.setItem('autoplaySimilar', autoplaySimilar)
  }
 
+ const handleAutoplayRange = function() {
+     localStorage.setItem('autoplayRange', autoplayRange)
+ }
 </script>
 
 <div class="playlist-list">
@@ -78,7 +84,11 @@
         </label>
         <input type="checkbox" id="autoplay-similar" value="Autoplay similar" bind:checked="{autoplaySimilar}" on:change="{handleAutoplaySimilar}" />
         <label for="autoplay-similar">
-            with similar genres
+            tracks with genres similar to the
+        </label>
+        <input type="number" id="autoplay-range" bind:value="{autoplayRange}" on:change="{handleAutoplayRange}" min="1" />
+        <label for="autoplay-similar">
+            last played (the lower the more adventurous)
         </label>
     </div>
     {#each queue as obj, index}
@@ -146,5 +156,8 @@
 
  .playing svg {
      stroke: black;
+ }
+ #autoplay-range {
+     width: 3em;
  }
 </style>

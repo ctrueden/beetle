@@ -3,34 +3,66 @@ export default class RandomItem {
   constructor(maxItemId) {
     this.maxItemId = maxItemId
     this.maxDepth = 20
+    this.genreFreq = {}
+    this.genreMaxFreq = 1
+  }
+
+  updateGenreFreq(item) {
+    if (!item.genre)
+      return
+
+    for (let genre of item.genre.split(',').map(g => g.trim())) {
+      if(this.genreFreq[genre]) {
+        this.genreFreq[genre]++
+        if (this.genreFreq[genre] > this.genreMaxFreq)
+          this.genreMaxFreq = this.genreFreq[genre]
+      } else {
+        this.genreFreq[genre] = 1
+      }
+      this.genreCardinality++
+    }
   }
 
   getOne() {
     return  RandomItem.fetchItem(this.randomItemIndex())
-      .then(item => (item) ? item : this.getOne())
+      .then(item => {
+        if (item) {
+          this.updateGenreFreq(item)
+          return item
+        } else
+          return this.getOne()
+      })
   }
 
-  getSimilarOne(item, bestCandidate, depth) {
+  getSimilarOne(items, bestCandidate, depth) {
     if (depth === undefined)
       depth = 0
 
-    if (depth > 10)
+    if (depth > this.maxDepth) {
+      let genres = items.reduce((acc, it) => {
+        if (it.genre) {acc = acc.concat(it.genre.split(',').map(g => g.trim()))} return acc}, [])
+      console.log(bestCandidate.title, bestCandidate.genre, genres)
       return Promise.resolve(bestCandidate)
+    }
+
 
     return this.getOne()
       .then(candidate => {
-        let similarity = RandomItem.similarity(item, candidate)
-        console.log(candidate.title, similarity)
+        let similarity = this.similarity(items, candidate)
+        let genres = items.reduce((acc, it) => {
+          if (it.genre) {acc = acc.concat(it.genre.split(',').map(g => g.trim()))} return acc}, [])
 
-        if (similarity == 1)
-          return Promise.resolve(candidate)
-
-        let bestSimilarity = (bestCandidate) ? RandomItem.similarity(item, bestCandidate) : 0
+        let bestSimilarity = (bestCandidate) ? this.similarity(items, bestCandidate) : 0
         if (!bestCandidate || similarity > bestSimilarity) {
           bestCandidate = candidate
         }
-        
-        return this.getSimilarOne(item, bestCandidate, ++depth)
+
+        if (depth > 3 && bestSimilarity > 1/Math.min(genres.length, 5)) {
+          console.log(bestCandidate.title, bestCandidate.genre, genres, bestSimilarity)
+          return Promise.resolve(bestCandidate)
+        }
+
+        return this.getSimilarOne(items, bestCandidate, ++depth)
       })
   }
   
@@ -63,10 +95,15 @@ export default class RandomItem {
       })
   }
 
-  static similarity(item1, item2) {
-    if (!item1.genre || !item2.genre)
+  similarity(items, item2) {
+    if (!item2.genre)
       return 0
-    const genres1 = item1.genre.split(',').map(g => g.trim())
+    const genres1 = items.reduce((acc, it) => {
+      if (it.genre)
+        return acc.concat(it.genre.split(',').map(g => g.trim()))
+      return acc
+    }, [])
+
     const genres2 = item2.genre.split(',').map(g => g.trim())
     let score = 0
 
@@ -74,20 +111,14 @@ export default class RandomItem {
       for (let genre2 of genres2) {
 
         if (genre1 == genre2) {
-          score += 1
+          const newScore = 1 / (1 + (this.genreFreq[genre1]/ this.genreMaxFreq))
+          score += newScore
           continue
         }
-
-        if (genre1.includes(genre2))
-          score += 0.25
-        if (genre2.includes(genre1))
-          score += 0.25
       }
     }
-    score = score / Math.max(genres1.length, genres2.length)
-    score = Math.min(score, 1)
-    console.log(genres1, genres2, score)
 
+    score = score / (genres1.length)
     return score
   }
   
@@ -107,7 +138,8 @@ export default class RandomItem {
       .then(res => res.json())
       .then(stats => {
         // it is a bloody hack ...
-        return 2 * stats.items
+        return 1.5 * stats.items
       })
   }
+
 }
