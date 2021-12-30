@@ -5,22 +5,36 @@ export default class RandomItem {
     this.maxDepth = 20
     this.genreFreq = {}
     this.genreMaxFreq = 1
+    this.genreMinFreq = 1
+
+    // to start with wome genre frequencies
+    this.getSome(2 * this.maxDepth)
+    
   }
 
-  updateGenreFreq(item) {
-    if (!item.genre)
-      return
+  updateGenreFreq(items) {
+    for (let item of items) {
+      if (!item.genre)
+        continue
 
-    for (let genre of item.genre.split(',').map(g => g.trim())) {
-      if(this.genreFreq[genre]) {
-        this.genreFreq[genre]++
-        if (this.genreFreq[genre] > this.genreMaxFreq)
-          this.genreMaxFreq = this.genreFreq[genre]
-      } else {
-        this.genreFreq[genre] = 1
+      for (let genre of item.genre.split(',').map(g => g.trim())) {
+        if(this.genreFreq[genre]) {
+          this.genreFreq[genre]++
+          if (this.genreFreq[genre] > this.genreMaxFreq)
+            this.genreMaxFreq = this.genreFreq[genre]
+        } else {
+          this.genreFreq[genre] = 1
+        }
+        this.genreCardinality++
       }
-      this.genreCardinality++
     }
+
+    let genreMinFreq = Infinity
+    for (let genre in this.genreFreq) {
+      if (genreMinFreq > this.genreFreq[genre])
+        genreMinFreq = this.genreFreq[genre]
+    }
+    this.genreMinFreq = genreMinFreq
   }
 
   // try to find the requested number of element, it may fail
@@ -29,8 +43,7 @@ export default class RandomItem {
     return  RandomItem.fetchItems(this.randomItemIds(number))
       .then(items => {
         if (items && items.length > 0) {
-          for (let item of items)
-            this.updateGenreFreq(item)
+          this.updateGenreFreq(items)
           return items
         } else
           return this.getSome(number)
@@ -122,7 +135,8 @@ export default class RandomItem {
       for (let genre2 of genres2) {
 
         if (genre1 == genre2) {
-          const newScore = 1 / (1 + (this.genreFreq[genre1]/ this.genreMaxFreq))
+          // const newScore = 1 / (1 + (this.genreFreq[genre1]/ this.genreMaxFreq))
+          const newScore = this.genreMinFreq /  (this.genreFreq[genre1])
           score += newScore
           continue
         }

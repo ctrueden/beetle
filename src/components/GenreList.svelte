@@ -1,6 +1,6 @@
 <script>
  export let genreString
- let genreList = genreString.split(',').map(g => g.trim())
+ $: genreList = genreString.split(',').map(g => g.trim())
 </script>
 
 <ul>
