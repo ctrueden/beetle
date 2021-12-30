@@ -23,47 +23,50 @@ export default class RandomItem {
     }
   }
 
-  getOne() {
-    return  RandomItem.fetchItem(this.randomItemIndex())
-      .then(item => {
-        if (item) {
-          this.updateGenreFreq(item)
-          return item
+  // try to find the requested number of element, it may fail
+  // it ensures to return at least one item
+  getSome(number) {
+    return  RandomItem.fetchItems(this.randomItemIds(number))
+      .then(items => {
+        if (items && items.length > 0) {
+          for (let item of items)
+            this.updateGenreFreq(item)
+          return items
         } else
-          return this.getOne()
+          return this.getSome(number)
       })
   }
+  
+  getOne() {
+    return this.getSome(1)
+      .then(items => items[0])
+  }
 
-  getSimilarOne(items, bestCandidate, depth) {
-    if (depth === undefined)
-      depth = 0
 
-    if (depth > this.maxDepth) {
+  
+  getSimilarOne(items) {
+
+    return this.getSome(this.maxDepth).then(candidates => {
+      console.log(candidates)
+      let bestCandidate
+      let bestSimilarity = 0
+
+      for (let candidate of candidates) {
+        let similarity = this.similarity(items, candidate)
+
+        if (similarity > bestSimilarity) {
+          bestCandidate = candidate
+          bestSimilarity = similarity
+        }
+
+      }
+
       let genres = items.reduce((acc, it) => {
         if (it.genre) {acc = acc.concat(it.genre.split(',').map(g => g.trim()))} return acc}, [])
-      console.log(bestCandidate.title, bestCandidate.genre, genres)
-      return Promise.resolve(bestCandidate)
-    }
-
-
-    return this.getOne()
-      .then(candidate => {
-        let similarity = this.similarity(items, candidate)
-        let genres = items.reduce((acc, it) => {
-          if (it.genre) {acc = acc.concat(it.genre.split(',').map(g => g.trim()))} return acc}, [])
-
-        let bestSimilarity = (bestCandidate) ? this.similarity(items, bestCandidate) : 0
-        if (!bestCandidate || similarity > bestSimilarity) {
-          bestCandidate = candidate
-        }
-
-        if (depth > 3 && bestSimilarity > 1/Math.min(genres.length, 5)) {
-          console.log(bestCandidate.title, bestCandidate.genre, genres, bestSimilarity)
-          return Promise.resolve(bestCandidate)
-        }
-
-        return this.getSimilarOne(items, bestCandidate, ++depth)
-      })
+      
+      console.log(bestCandidate.title, bestCandidate.artist, bestCandidate.genre, genres, bestSimilarity)
+      return bestCandidate
+    })
   }
   
   getOneWithGenre(genre, depth) {
@@ -82,16 +85,24 @@ export default class RandomItem {
     
   }
 
-  randomItemIndex() {
-    return Math.floor(Math.random() * this.maxItemId + 1)
+  randomItemIds(number) {
+    number = (number) ? number : 1
+    const ids = []
+    for (let i = 0; i < number; i++)
+      ids.push(Math.floor(Math.random() * this.maxItemId + 1))
+    return ids
   }
 
-  static fetchItem(id) {
-    return fetch(process.env.BEETLE_API + `/item/${id}`)
+  static fetchItems(ids) {
+    const idsString = ids.join(',')
+    return fetch(process.env.BEETLE_API + `/item/${idsString}`)
       .then(res => {
         if (res.status == 404)
           return null
         return res.json()
+          .then(data => {
+            return (ids.length > 1) ? data.items : [data] 
+          })
       })
   }
 
