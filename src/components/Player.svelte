@@ -53,6 +53,13 @@
  onMount(() => {
      playlist.registerPlayStateListener(playStateListener)
      playlist.registerPlaylistListener(playlistListener)
+     document.addEventListener('keydown', (event) => {
+         // space
+         if (event.keyCode === 32) {
+             event.preventDefault()
+             handlePlay()
+         }
+     })
      initMediaSession()
  })
 
@@ -69,7 +76,11 @@
  }
  
  const handlePrevious = function(e) {
-     playlist.previous()
+     // after playing 5 seconds, previous means go to the beginning
+     if (currentTime > 5) {
+         seekTo(0)
+     } else
+         playlist.previous()
  }
 
  const handleNext = function(e) {
@@ -77,9 +88,18 @@
  }
 
  const handleSeekTo = function(e) {
-     currentTime = e.target.valueAsNumber
+     seekTo(e.target.valueAsNumber)
  }
 
+ function seekTo(value) {
+     const wasPaused = audioElt.paused
+
+     audioElt.pause()
+     audioElt.currentTime = value
+     if (!wasPaused)
+         audioElt.play()
+ }
+ 
  function setMediaSession(item) {
      if ('mediaSession' in navigator) {
          navigator.mediaSession.metadata = new MediaMetadata({
