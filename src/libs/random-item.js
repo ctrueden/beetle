@@ -61,7 +61,8 @@ export default class RandomItem {
 
     return this.getSome(this.maxDepth).then(candidates => {
       console.log(candidates)
-      let bestCandidate
+      // need to be instantiated
+      let bestCandidate = candidates[0]
       let bestSimilarity = 0
 
       for (let candidate of candidates) {
