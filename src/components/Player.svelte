@@ -54,8 +54,9 @@
      playlist.registerPlayStateListener(playStateListener)
      playlist.registerPlaylistListener(playlistListener)
      document.addEventListener('keydown', (event) => {
+         console.log()
          // space
-         if (event.keyCode === 32) {
+         if (event.keyCode === 32 && event.target.tagName !== 'INPUT') {
              event.preventDefault()
              handlePlay()
          }
