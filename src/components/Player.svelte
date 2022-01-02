@@ -62,6 +62,8 @@
          }
      })
      initMediaSession()
+     audioElt.ontimeupdate = () => { currentTime = audioElt.currentTime}
+
  })
 
  const togglePlay = function () {
@@ -186,7 +188,7 @@
             </label>
         </div>
     </div>
-    <audio on:ended="{handleNext}" bind:this="{audioElt}" bind:currentTime bind:duration>
+    <audio on:ended="{handleNext}" bind:this="{audioElt}" bind:duration>
         {#if playingItem}
             <source src="{fileUrl(playingItem)}" type="{Mime(playingItem.format)}">
         {/if}
