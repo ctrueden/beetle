@@ -54,7 +54,6 @@
      playlist.registerPlayStateListener(playStateListener)
      playlist.registerPlaylistListener(playlistListener)
      document.addEventListener('keydown', (event) => {
-         console.log()
          // space
          if (event.keyCode === 32 && event.target.tagName !== 'INPUT') {
              event.preventDefault()
@@ -148,7 +147,7 @@
                 </button>
             </div>
             <div class="control">
-                <button on:click="{handlePlay}">
+                <button on:click="{handlePlay}" class="play">
                     {#if paused}
                         <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
                             <title>play</title>

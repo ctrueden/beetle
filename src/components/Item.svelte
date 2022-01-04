@@ -24,7 +24,7 @@
     <div class="left">
         {#if albumDisplayed}
             <div class="album">
-                <a href="{albumLink}">
+                <a href="{albumLink}" title="{item.album}">
                     <img src="{process.env.BEETLE_API}/album/{item.album_id}/art" alt="{item.album}" />
                 </a>
             </div>
@@ -46,11 +46,9 @@
             </div>
         </div>
     </div>
-    {#if durationDisplayed}
-        <div class="duration">
-            {getMinute(item.length)}:{getSecond(item.length)}
-        </div>
-    {/if}
+    <div class="duration {(durationDisplayed) ? '' : 'hidden'}">
+        {getMinute(item.length)}:{getSecond(item.length)}
+    </div>
 </div>
 
 <style>
@@ -94,5 +92,9 @@
 
  .item .artist {
      font-size: .8em;
+ }
+
+ .hidden {
+     display: none;
  }
 </style>
