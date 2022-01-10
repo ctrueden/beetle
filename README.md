@@ -4,6 +4,14 @@ Beetle is a web interface for a music library in [Beets](https://github.com/beet
 
 ![video](https://book.buron.coffee/notes/img/beetle-demo.mp4)
 
+Beetle has the following features:
+
+- list of albums and artists
+- infos of albums and lyrics of tracks
+- text-based search
+- playlist support 
+- auto-play feature, for playing recommended tracks based on their genre.
+
 ## Installation
 
 ```
