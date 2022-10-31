@@ -1,5 +1,5 @@
 import xml from 'xml'
-import fetch from 'node-fetch'
+// import fetch from 'node-fetch'
 import { env } from '$env/dynamic/public'
 const HOST = env.BEETLE_HOST + env.BEETLE_BASE
 
@@ -46,15 +46,17 @@ let albumFeed = function(albums) {
   return '<?xml version="1.0" encoding="UTF-8"?>' + xml(xmlObject)
 }
 
-export function get (req, res) {
-  fetch(env.BEETLE_API + '/album/query/added-')
+export async function GET ({fetch, request}) {
+  const recentAlbums = await fetch(env.BEETLE_API + '/album/query/added-')
     .then(r => r.json())
     .then(albums => {
-      let recentAlbums = albums.results.splice(0, 20)
-      res.writeHead(200, {
-        'Content-Type': 'application/rss+xml'
-      })
-
-      res.end(albumFeed(recentAlbums))
+      return albums.results.splice(0, 20)
     })
+
+  const headers = new Headers()
+  headers.append('Content-Type', 'application/rss+xml')
+  const options = {
+    'headers': headers
+  }
+  return new Response(String(albumFeed(recentAlbums)), options)
 }

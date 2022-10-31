@@ -1,4 +1,5 @@
 <script>
+ import { env } from '$env/dynamic/public'
  import {getContext, onMount} from 'svelte'
  import Playlist from './Playlist.svelte'
  import Item from './Item.svelte'
@@ -109,7 +110,7 @@
              artist: item.artist,
              album: item.album,
              artwork: [
-                 { src: process.env.BEETLE_API + '/album/' + item.album_id + '/art',   sizes: '300x300',   type: 'image/jpeg' }
+                 { src: env.BEETLE_API + '/album/' + item.album_id + '/art',   sizes: '300x300',   type: 'image/jpeg' }
              ]
          });
      }

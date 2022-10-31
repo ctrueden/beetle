@@ -4,7 +4,6 @@
  import Playlist from '../libs/playlist'
  import {setContext} from 'svelte';
 
- export let segment;
  export let playlist = new Playlist()
 
  setContext('playlist', playlist)
@@ -22,7 +21,7 @@
  }
 </style>
 
-<Nav {segment}/>
+<Nav />
 
 <main>
     <slot></slot>

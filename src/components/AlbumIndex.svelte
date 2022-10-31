@@ -1,11 +1,12 @@
 <script>
  export let selectionName
+ import Link from './Link.svelte'
 </script>
 
 <ul class="index">
     {#each "abcdefghijklmnopqrstuvwxyz#".split("") as letter}
         <li class="letter" aria-current='{(selectionName === letter.toUpperCase()) ? "page" : undefined}'>
-            <a href="./artistIndex/{encodeURIComponent(letter)}" >{letter.toUpperCase()}</a>
+            <Link path="/artistIndex/{encodeURIComponent(letter)}" >{letter.toUpperCase()}</Link>
         </li>
     {/each}
 </ul>

@@ -1,30 +1,38 @@
 <script>
- export let segment;
- import { goto } from '@sapper/app'
+ import { env } from '$env/dynamic/public'
+ import { goto } from '$app/navigation'
+ import { base } from '$app/paths'
  import Search from '../components/Search.svelte'
 
  let handleSearch = function(event) {
      const query = event.detail
      if (query) {
-         const location = './search/' + encodeURI(query)
+         const location = base + '/search/' + encodeURI(query)
          goto(location)
      }
-}
+ }
+ let segment = undefined
 </script>
 
 
 <nav>
     <ul>
-	<li><a aria-current='{segment === undefined ? "page" : undefined}' href='.'>
-            <img src="./logo-192.png" class="logo" alt="logo" />
-        </a></li>
+	<li>
+            <a aria-current='{segment === undefined ? "page" : undefined}' href='{base}/'>
+                <img src="{base}/logo-192.png" class="logo" alt="logo" />
+            </a>
+        </li>
 	<!-- <li><a aria-current='{segment === "about" ? "page" : undefined}' href='about'>about</a></li> -->
 
 	<!-- for the blog link, we're using rel=prefetch so that Sapper prefetches
 	     the blog data when we hover over the link or tap it on a touchscreen -->
-	<li><a  aria-current='{(segment === "artist" || segment === "artistIndex") ? "page" : undefined}' href='./artistIndex/A'>artists</a></li>
-        {#if process.env.BEETLE_PLAYLISTS != undefined }
-            <li><a  aria-current='{(segment === "playlist") ? "page" : undefined}' href='./playlist'>playlists</a></li>
+	<li>
+            <a  aria-current='{(segment === "artist" || segment === "artistIndex") ? "page" : undefined}' href='{base}/artistIndex/A'>artists</a>
+        </li>
+        {#if env.BEETLE_PLAYLISTS != undefined }
+            <li>
+                <a  aria-current='{(segment === "playlist") ? "page" : undefined}' href='{base}/playlist'>playlists</a>
+            </li>
         {/if}
     </ul>
     <div class="search">

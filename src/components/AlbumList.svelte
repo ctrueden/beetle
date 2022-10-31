@@ -2,7 +2,9 @@
  export let albumList
  export let step = 10
 
+ import { env } from '$env/dynamic/public'
  import {onMount, beforeUpdate} from 'svelte'
+ import Link from './Link.svelte'
 
  let length = step
  $: displayedAlbums = albumList.slice(0, length)
@@ -42,11 +44,17 @@
 	     the user hovers over the link or taps it, instead of
 	     waiting for the 'click' event -->
         <div class="card">
-            <a href="./album/{album.id}">
-                <img class="poster" src="{process.env.BEETLE_API}/album/{album.id}/art" alt="{album.album} cover" />
-            </a>
-            <p class="album"><a href="./album/{album.id}">{album.album}</a></p>
-            <p class="artist"> <a href="./artist/{album.mb_albumartistid}">{album.albumartist}</a></p>
+            <Link path="/album/{album.id}">
+                <img class="poster" src="{env.BEETLE_API}/album/{album.id}/art" alt="{album.album} cover" />
+            </Link>
+            <p class="album">
+                <Link path="/album/{album.id}">{album.album}</Link>
+            </p>
+            {#if album.albumartist}
+                <p class="artist">
+                    <Link path="/artist/{album.mb_albumartistid}">{album.albumartist}</Link>
+                </p>
+            {/if}
         </div>
     {/each}
     <div class="bottom" bind:this="{bottomElt}"></div>

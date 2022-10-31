@@ -1,3 +1,5 @@
+import { env } from '$env/dynamic/public'
+
 export default class RandomItem {
 
   constructor(maxItemId) {
@@ -109,7 +111,7 @@ export default class RandomItem {
 
   static fetchItems(ids) {
     const idsString = ids.join(',')
-    return fetch(process.env.BEETLE_API + `/item/${idsString}`)
+    return fetch(env.BEETLE_API + `/item/${idsString}`)
       .then(res => {
         if (res.status == 404)
           return null
@@ -160,7 +162,7 @@ export default class RandomItem {
   }
 
   static getMaxItemId() {
-    return fetch(process.env.BEETLE_API + `/stats`)
+    return fetch(env.BEETLE_API + `/stats`)
       .then(res => res.json())
       .then(stats => {
         // it is a bloody hack ...

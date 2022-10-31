@@ -4,9 +4,12 @@
  export let albumDisplayed = false
  export let durationDisplayed = true
 
- $: itemLink = "./item/" + item.id
- $: artistLink = "./artist/" + item.mb_artistid
- $: albumLink = "./album/" + item.album_id
+ import { env } from '$env/dynamic/public'
+ import Link from './Link.svelte'
+
+ $: itemLink = "/item/" + item.id
+ $: artistLink = "/artist/" + item.mb_artistid
+ $: albumLink = "/album/" + item.album_id
 
  const getMinute = function(seconds) {
      return Math.floor(seconds/60) 
@@ -24,9 +27,9 @@
     <div class="left">
         {#if albumDisplayed}
             <div class="album">
-                <a href="{albumLink}" title="{item.album}">
-                    <img src="{process.env.BEETLE_API}/album/{item.album_id}/art" alt="{item.album}" />
-                </a>
+                <Link path="{albumLink}" alt="{item.album}">
+                    <img src="{env.BEETLE_API}/album/{item.album_id}/art" alt="{item.album}" />
+                </Link>
             </div>
         {/if}
         <div class="name">
@@ -34,14 +37,14 @@
                 {#if disabledLink}
                     {item.title}
                 {:else}
-                    <a href="{itemLink}">{item.title}</a>
+                    <Link path="{itemLink}">{item.title}</Link>
                 {/if}
             </div>
             <div class="artist">
                 {#if disabledLink}
                     {item.artist}
                 {:else}
-                    <a href="{artistLink}">{item.artist}</a>
+                    <Link path="{artistLink}">{item.artist}</Link>
                 {/if}
             </div>
         </div>

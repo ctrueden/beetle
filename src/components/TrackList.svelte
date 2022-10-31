@@ -3,7 +3,7 @@
  import PlaylistControllers from './PlaylistControllers.svelte'
  import Item from './Item.svelte'
 
- export let tracklist;
+ export let tracklist
 </script>
 
 <div class="tracklist">

@@ -1,24 +1,12 @@
-<script context="module">
- export async function preload({ params, query }) {
-     // the `slug` parameter is available because
-     // this file is called [slug].svelte
-     const res = await this.fetch(process.env.BEETLE_API + `/album/${params.slug}?expand`);
-
-     const data = await res.json();
-     if (res.status === 200) {
-	 return { album: data };
-     } else {
-	 this.error(res.status, data.message);
-     }
- }
-</script>
-
 <script>
- import PlaylistControllers from '../../components/PlaylistControllers.svelte'
- import TrackList from '../../components/TrackList.svelte'
- import GenreList from '../../components/GenreList.svelte'
+ import { env } from '$env/dynamic/public'
+ import PlaylistControllers from '../../../components/PlaylistControllers.svelte'
+ import TrackList from '../../../components/TrackList.svelte'
+ import GenreList from '../../../components/GenreList.svelte'
+ import Link from '../../../components/Link.svelte'
 
- export let album;
+ export let data
+ let {album} = data
 </script>
 
 <svelte:head>
@@ -26,13 +14,13 @@
 </svelte:head>
 
 <header>
-    <img class="cover" src="{process.env.BEETLE_API}/album/{album.id}/art" alt="{album.album} cover" />
+    <img class="cover" src="{env.BEETLE_API}/album/{album.id}/art" alt="{album.album} cover" />
     <h1 class="album">{album.album}</h1>
-    <h2 class="artist"><a href="./artist/{album.mb_albumartistid}">{album.albumartist}</a></h2>
+    <h2 class="artist"><Link path="/artist/{album.mb_albumartistid}">{album.albumartist}</Link></h2>
 
     <p class="year">{album.original_year}</p>
     <GenreList genreString="{album.genre}" />
-        <div class="controls-wrapper">
+    <div class="controls-wrapper">
         <PlaylistControllers items={album.items} />
     </div>
 </header>

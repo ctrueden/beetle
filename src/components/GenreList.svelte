@@ -1,11 +1,16 @@
 <script>
  export let genreString
+
+ import Link from './Link.svelte'
+ 
  $: genreList = genreString.split(',').map(g => g.trim())
 </script>
 
 <ul>
     {#each genreList as genre}
-        <li><a href="./genre/{genre}">{genre}</a></li>
+        <li>
+            <Link path="/genre/{genre}">{genre}</Link>
+        </li>
     {/each}
 </ul>
 

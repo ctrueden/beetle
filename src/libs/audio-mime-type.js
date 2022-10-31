@@ -20,7 +20,7 @@ Object.keys(mimeTypes).forEach(function (key) {
   })
 })
 
-module.exports = function lookup (ext) {
+export default function lookup (ext) {
   if (!ext) throw new TypeError('must specify extension string')
   if (ext.indexOf('.') === 0) {
     ext = ext.substring(1)

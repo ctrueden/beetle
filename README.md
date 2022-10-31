@@ -1,6 +1,6 @@
 # Beetle: A beeautiful web interface for Beets
 
-Beetle is a web interface for a music library in [Beets](https://github.com/beetbox/beets) build using [sapper](https://sapper.svelte.dev/).
+Beetle is a web interface for a music library in [Beets](https://github.com/beetbox/beets) build using [svelte](https://kit.svelte.dev/).
 
 ![video](https://book.buron.coffee/notes/img/beetle-demo.mp4)
 
@@ -14,6 +14,7 @@ Beetle has the following features:
 
 ## Installation
 
+It works best with node V16.18.0
 ```
 git clone https://gitlab.com/maxburon/beetle.git
 cd beetle
@@ -66,6 +67,6 @@ Into another terminal, go the cloned directory of beetle and run:
 npm run dev
 # or for production
 npm run build
-npm run start
+npm run preview
 ```
 and visit <http://localhost:3000>
