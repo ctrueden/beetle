@@ -6,7 +6,7 @@
  import Link from '../../../components/Link.svelte'
 
  export let data
- let {album} = data
+ $: album = data.album
 </script>
 
 <svelte:head>

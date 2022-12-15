@@ -3,7 +3,7 @@
  import Link from '../../../components/Link.svelte'
  import fileUrl from '../../../libs/file-url'
  export let data
- let item = data.item
+ $: item = data.item
  
  function htmlLyrics(text) {
      return text.replace(/[\n|\r]/g, '<br/>')
