@@ -4,7 +4,7 @@ export default class RandomItem {
 
   constructor(maxItemId) {
     this.maxItemId = maxItemId
-    this.maxDepth = 20
+    this.maxDepth = 100
     this.genreFreq = {}
     this.genreMaxFreq = 1
     this.genreMinFreq = 1
@@ -12,6 +12,10 @@ export default class RandomItem {
     // to start with wome genre frequencies
     this.getSome(2 * this.maxDepth)
     
+  }
+
+  getGenreFreq(genre) {
+    return (this.genreFreq[genre] != null) ? this.genreFreq[genre] : this.genreMinFreq
   }
 
   updateGenreFreq(items) {
@@ -122,34 +126,39 @@ export default class RandomItem {
       })
   }
 
-  similarity(items, item2) {
-    if (!item2.genre)
-      return 0
-    const genres1 = items.reduce((acc, it) => {
-      if (it.genre)
-        return acc.concat(it.genre.split(',').map(g => g.trim()))
-      return acc
-    }, [])
-
-    const genres2 = item2.genre.split(',').map(g => g.trim())
-    let score = 0
-
-    for (let genre1 of genres1) {
-      for (let genre2 of genres2) {
-
-        if (genre1 == genre2) {
-          // const newScore = 1 / (1 + (this.genreFreq[genre1]/ this.genreMaxFreq))
-          const newScore = this.genreMinFreq /  (this.genreFreq[genre1])
-          score += newScore
-          continue
-        }
-      }
-    }
-
-    score = score / (genres1.length)
-    return score
+  itemGenres(item) {
+    if (item.genre)
+      return item.genre.split(',').map(g => g.trim())
+    else
+      return []
   }
   
+  similarity(items, item2) {
+    let score = 0
+    
+    for (let item1 of items) {
+      let itemScore = 0
+      let norm = 0
+      for (let genre2 of this.itemGenres(item2)) {
+        norm = 0
+        for (let genre1 of this.itemGenres(item1)) {
+          // const newScore = 1 / (1 + (this.genreFreq[genre1]/ this.genreMaxFreq))
+          const newScore = this.genreMinFreq / this.getGenreFreq(genre1)
+          if (genre1 === genre2) {
+            itemScore += newScore
+          }
+          norm += newScore
+        }
+      }
+      if (itemScore && norm)
+        score += itemScore / (2*norm)
+    }
+
+    score = score / (items.length)
+
+    return score
+  }
+
   static create() {
     return RandomItem.getMaxItemId()
       .then(maxItemId => {
