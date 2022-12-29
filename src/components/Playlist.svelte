@@ -7,6 +7,7 @@
  let autoplay = true
  let autoplaySimilar = true
  let autoplayRange = 5
+ let autoplaySim = 15
  let currentId
  let randomItem
 
@@ -25,7 +26,7 @@
      if(autoplay && currentId == queue[queue.length - 1].songid) {
          let promise
          if (autoplaySimilar)
-             promise = randomItem.getSimilarOne(queue.slice(-autoplayRange).map(pos => pos.item))
+             promise = randomItem.getSimilarOne(queue.map(pos => pos.item), autoplayRange, autoplaySim/100)
          else
              promise = randomItem.getOne()
          promise.then(item => {
@@ -40,6 +41,8 @@
      autoplaySimilar = (localStorage.getItem('autoplaySimilar') != null) ? localStorage.getItem('autoplaySimilar') != 'false' : true
      const parsedAutoplayRange = parseInt(localStorage.getItem('autoplayRange'))
      autoplayRange = (parsedAutoplayRange) ? parsedAutoplayRange : autoplayRange
+     const parsedAutoplaySim = parseInt(localStorage.getItem('autoplaySim'))
+     autoplaySim = (parsedAutoplaySim) ? parsedAutoplaySim : autoplaySim
      RandomItem.create()
                .then(ri => {
                    randomItem = ri
@@ -74,6 +77,10 @@
  const handleAutoplayRange = function() {
      localStorage.setItem('autoplayRange', autoplayRange)
  }
+
+ const handleAutoplaySim = function() {
+     localStorage.setItem('autoplaySim', autoplaySim)
+ }
 </script>
 
 <div class="playlist-list">
@@ -88,8 +95,13 @@
         </label>
         <input type="number" id="autoplay-range" bind:value="{autoplayRange}" on:change="{handleAutoplayRange}" min="1" />
         <label for="autoplay-similar">
-            last played (the lower the more adventurous)
+            last played
         </label>
+        <input type="range" id="autoplay-sim" bind:value="{autoplaySim}" on:change="{handleAutoplaySim}" min="0" max="40" />
+        <label for="autoplay-sim">
+            with this similarity (from low to high)
+        </label>
+
     </div>
     {#each queue as obj, index}
         <div class="row {(currentId === obj.songid) ? 'playing' : ''}" data-songid="{obj.songid}" on:click="{handleClick}">
