@@ -4,20 +4,20 @@
  export let items;
  export let forcePlay = false;
 
- const playlist = getContext('playlist')
+ const queue = getContext('queue')
 
  const handleClick = function(e) {
      let firstObj
      for (let item of items) {
          if (!firstObj) {
-             firstObj = playlist.add(item)
+             firstObj = queue.add(item)
          } else {
-             playlist.add(item)
+             queue.add(item)
          }
      }
 
      if (forcePlay) {
-         playlist.playid(firstObj.songid)
+         queue.playid(firstObj.songid)
      }
  }
 </script>
@@ -38,10 +38,6 @@
 </button>
 
 <style>
- svg {
-     stroke: black;
- }
-
  button {
      border: none;
      background-color: inherit;

@@ -9,7 +9,7 @@
 
  import AlbumList from '../../../components/AlbumList.svelte'
  import Item from '../../../components/Item.svelte'
- import PlaylistControllers from '../../../components/PlaylistControllers.svelte'
+ import ControlerSet from '../../../components/ControlerSet.svelte'
 </script>
 
 <svelte:head>
@@ -26,7 +26,7 @@
 
 {#if items.length}
     <div class="controls-wrapper">
-        <PlaylistControllers items={items} />
+        <ControlerSet items={items} />
     </div>
     <h2>Pistes</h2>
     {#each items as item}

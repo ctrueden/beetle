@@ -1,6 +1,6 @@
 <script>
  
- import PlaylistControllers from './PlaylistControllers.svelte'
+ import ControlerSet from './ControlerSet.svelte'
  import Item from './Item.svelte'
 
  export let tracklist
@@ -14,7 +14,7 @@
                     {item.track}
                 </div>
                 <div class="controls-wrapper">
-                    <PlaylistControllers items={[item]} />
+                    <ControlerSet items={[item]} add={false} like={false} />
                 </div>
             </div>
             <div class="item-wrapper">
@@ -38,13 +38,18 @@
 
  .track .first-wrapper {
      display: flex;
-     flex-basis: 4em;
+     flex-basis: 2.2em;
      flex-grow: 0;
      flex-shrink: 0;
      align-items: stretch;
  }
 
- .track .number {
+ .track .controls-wrapper {
+    display: flex;
+    align-items: stretch;
+ }
+
+.track .number {
      display: flex;
      color: white;
      flex-grow: 1;
@@ -54,25 +59,33 @@
      justify-content: center;
  }
 
- .track:hover .number {
+ .track .number {
      display: none;
  }
 
- .track .controls-wrapper {
-     display:none;
- }
-
- .track:hover .controls-wrapper {
-     display: flex;
-     align-items:  center;
-     justify-content: center;
- }
-
  .track .item-wrapper {
+     min-width: 0;
      flex-grow: 1;
  }
 
  .item-wrapper {
-     padding: 0 1em;
+     padding: 0 .5em;
  }
+
+ @media(hover: hover) {
+   .track .controls-wrapper {
+     display:none;
+   }
+  .track .number {
+     display: flex;
+ }
+ .track:hover .number {
+     display: none;
+ }
+ .track:hover .controls-wrapper,.controls {
+     display: flex;
+     align-items:  center;
+     justify-content: center;
+ }
+}
 </style>

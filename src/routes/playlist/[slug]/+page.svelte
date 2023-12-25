@@ -1,9 +1,9 @@
 <script>
- import PlaylistControllers from '../../../components/PlaylistControllers.svelte'
+ import ControlerSet from '../../../components/ControlerSet.svelte'
  import TrackList from '../../../components/TrackList.svelte'
  export let data
- let name = data.name
- let tracklist = data.tracklist
+ $: name = data.name
+ $: tracklist = data.tracklist
 
 </script>
 
@@ -14,7 +14,7 @@
 <header>
     <h1 class="album">{name}</h1>
     <div class="controls-wrapper">
-        <PlaylistControllers items={tracklist} />
+        <ControlerSet items={tracklist} />
     </div>
 
 </header>

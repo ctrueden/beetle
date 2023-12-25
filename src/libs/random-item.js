@@ -13,7 +13,7 @@ export default class RandomItem {
     this.genreMinFreq = 1
 
     // to start with wome genre frequencies
-    this.getSome(2 * MAX_DEPTH)
+    this.getSome(MAX_DEPTH / 2)
     this.genresHierarchy = RandomItem.createHierarchy(genresTree)
   }
 

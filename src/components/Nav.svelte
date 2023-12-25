@@ -3,6 +3,7 @@
  import { goto } from '$app/navigation'
  import { base } from '$app/paths'
  import Search from '../components/Search.svelte'
+ import Account from '../components/Account.svelte'
 
  let handleSearch = function(event) {
      const query = event.detail
@@ -13,7 +14,6 @@
  }
  let segment = undefined
 </script>
-
 
 <nav>
     <ul>
@@ -29,23 +29,25 @@
 	<li>
             <a  aria-current='{(segment === "artist" || segment === "artistIndex") ? "page" : undefined}' href='{base}/artistIndex/A'>artists</a>
         </li>
-        {#if env.BEETLE_PLAYLISTS != undefined }
+        {#if env.BEETLE_PLAYLISTS_DIR != undefined }
             <li>
                 <a  aria-current='{(segment === "playlist") ? "page" : undefined}' href='{base}/playlist'>playlists</a>
             </li>
         {/if}
     </ul>
     <div class="search">
-        <Search on:search="{handleSearch}" />
+      <Search on:search="{handleSearch}" />
+      <Account />
     </div>
+    
 </nav>
 
 <style>
  nav {
+     display: flex;
      border-bottom: 1px solid rgba(255,62,0,0.1);
      font-weight: 300;
  }
-
 
  .logo {
      width: 3em;
@@ -53,12 +55,14 @@
  }
 
  .search {
-     float: right;
-     vertical-align: top;
-     max-width: 35%;
-     margin: 1em 0;
- }
- 
+     order: 2;
+     margin-top: auto;
+     margin-bottom: auto;
+     margin-left: auto;
+     display: flex;
+     flex-basis: 35%;
+  }
+
  ul {
      display: inline-block;
      margin: 0;
@@ -101,6 +105,9 @@
  @media (min-width: 400px) {
      nav {
          padding: 0 1em;
+     }
+     .search {
+        flex-basis: initial;
      }
  }
 

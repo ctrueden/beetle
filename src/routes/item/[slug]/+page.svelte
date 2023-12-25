@@ -1,5 +1,5 @@
 <script>
- import PlaylistControllers from '../../../components/PlaylistControllers.svelte'
+ import ControlerSet from '../../../components/ControlerSet.svelte'
  import Link from '../../../components/Link.svelte'
  import fileUrl from '../../../libs/file-url'
  export let data
@@ -26,7 +26,7 @@
         <li><strong>Date: </strong>{item.original_year}</li>
         <!-- <li><strong>MusicBrainz: </strong> <a href="https://musicbrainz.org/track/{item.mb_trackid}">{item.mb_albumid}</a></li> -->
     </ul>
-    <PlaylistControllers items="{[item]}" />
+    <ControlerSet items="{[item]}" />
     <a href="{fileUrl(item)}" download>download</a>
 </header>
 {#if item.lyrics}

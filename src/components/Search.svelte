@@ -17,13 +17,19 @@
 </form>
 
 <style>
+form {
+   display: flex;
+   flex-shrink: 1;
+   justify-content: center;
+}
+
  input {
-     display: inline-block;
+     align-self: center;   
      width: 75%;
  }
 
  label{
-     display: inline-block;
+     display: flex;
  }
  
  .icon {
@@ -34,7 +40,6 @@
      fill: currentColor;
      height: 1em;
      width: 1em;
-     top: .125em;
-     position: relative;
+     margin: .2em;
  }
 </style>

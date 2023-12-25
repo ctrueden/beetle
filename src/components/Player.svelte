@@ -1,19 +1,19 @@
 <script>
  import { env } from '$env/dynamic/public'
- import {getContext, onMount} from 'svelte'
- import Playlist from './Playlist.svelte'
+ import {onMount} from 'svelte'
+ import Queue from './Queue.svelte'
  import Item from './Item.svelte'
  import PL from '../libs/playlist'
  import fileUrl from '../libs/file-url'
  import Mime from '../libs/audio-mime-type'
- export let playlist
+ export let queue
 
 
  let currentTime = 1
  let duration = 1
  $: percent = 100* (Math.round(currentTime) / duration) || 0
  let audioElt
- let openedPlaylist = false
+ let openedQueue = false
  let isPlayerHidden = true
  let paused = true
  let playingItem = undefined
@@ -47,13 +47,13 @@
      }
  }
 
- const playlistListener = function (queue) {
+ const queueListener = function (queue) {
      isPlayerHidden = queue.length === 0
  }
 
  onMount(() => {
-     playlist.registerPlayStateListener(playStateListener)
-     playlist.registerPlaylistListener(playlistListener)
+     queue.registerPlayStateListener(playStateListener)
+     queue.registerPlaylistListener(queueListener)
      document.addEventListener('keydown', (event) => {
          // space
          if (event.keyCode === 32 && event.target.tagName !== 'INPUT') {
@@ -68,9 +68,9 @@
 
  const togglePlay = function () {
      if (paused) {
-         playlist.pause(false)
+         queue.pause(false)
      } else {
-         playlist.pause(true)
+         queue.pause(true)
      }
  }
 
@@ -83,11 +83,11 @@
      if (currentTime > 5) {
          seekTo(0)
      } else
-         playlist.previous()
+         queue.previous()
  }
 
  const handleNext = function(e) {
-     playlist.next()
+     queue.next()
  }
 
  const handleSeekTo = function(e) {
@@ -126,9 +126,9 @@
  }
 </script>
 
-<div id="player" class="{(openedPlaylist) ? 'open' : ''} {(isPlayerHidden) ? 'hidden' : ''}">
-    <div class="playlist">
-        <Playlist playlist="{playlist}"  />
+<div id="player" class="{(openedQueue) ? 'open' : ''} {(isPlayerHidden) ? 'hidden' : ''}">
+    <div class="queue">
+        <Queue queue="{queue}"  />
     </div>
     <div class="bar-wrapper" style="--seek-before-width : {percent}%">
         <input type="range" id="seeker"  value="{currentTime}" max="{duration}" on:input="{handleSeekTo}" />
@@ -173,11 +173,11 @@
                 </button>
             </div>
         </div>
-        <div class="toggle-playlist controls">
-            <input type="checkbox" id="toggle-playlist-control" bind:checked="{openedPlaylist}" />
-            <label for="toggle-playlist-control" class="control">
+        <div class="toggle-queue controls">
+            <input type="checkbox" id="toggle-queue-control" bind:checked="{openedQueue}" />
+            <label for="toggle-queue-control" class="control">
                 <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'>
-                    <title>playlist</title>
+                    <title>queue</title>
                     <line x1='160' y1='144' x2='448' y2='144' style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
                     <line x1='160' y1='256' x2='448' y2='256' style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
                     <line x1='160' y1='368' x2='448' y2='368' style='fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:32px'/>
@@ -327,7 +327,9 @@
      display: flex;
      justify-content: space-around;
      align-items: center;
+     min-width:0;
      flex-basis: 33%;
+     height: initial;
  }
 
  .control {
@@ -349,24 +351,24 @@
      stroke: white;
  }
 
- .toggle-playlist.controls {
+ .toggle-queue.controls {
      justify-content: flex-end;
  }
  
- .toggle-playlist input {
+ .toggle-queue input {
      display:none;
  }
 
- .toggle-playlist input:checked ~ label svg {
+ .toggle-queue input:checked ~ label svg {
      stroke: red;
  }
 
  
- #player.open .playlist {
+ #player.open .queue {
      display: block;
  }
  
- .playlist {
+ .queue {
      display: none;
      width: 100%;
      max-width: 30em;

@@ -37,6 +37,9 @@ code {
 svg {
     width: 100%;
     height: 100%;
+     stroke: currentColor;
+     stroke-width: 32px;
+     fill: none;
 }
 
 button {
@@ -50,8 +53,34 @@ button:hover {
     cursor: pointer;
 }
 
+button[disabled] svg {
+   stroke: grey;
+}
+
+button[disabled] path {
+   fill: white !important;
+}
+
+
+
 @media (min-width: 400px) {
     body {
 	font-size: 16px;
     }
+}
+
+ .controls {
+     display: flex;
+     height: 2.2em;
+     align-items: center;
+ }
+
+ .control {
+     flex-basis: 2.2em;
+ }
+
+ 
+ .is-draggable{
+     /* needed here because does not work in Queue.svelte  */
+  z-index: 10;
 }

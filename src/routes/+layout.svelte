@@ -2,19 +2,23 @@
  import Nav from '../components/Nav.svelte'
  import Player from '../components/Player.svelte'
  import Playlist from '../libs/playlist'
- import {setContext} from 'svelte';
+ import {setContext} from 'svelte'
+ import { writable } from 'svelte/store'
 
  export let playlist = new Playlist()
 
- setContext('playlist', playlist)
+ setContext('queue', playlist)
+
+ const playlistContext = {
+    name: writable('')
+ }
+ setContext('playlist', playlistContext)
 </script>
 
 <style>
  main {
-     position: relative;
      max-width: 56em;
-     background-color: white;
-     padding: 2em;
+      padding: 2em;
      margin: 0 auto;
      box-sizing: border-box;
      margin-bottom: 5em;
@@ -27,4 +31,4 @@
     <slot></slot>
 </main>
 
-<Player playlist="{playlist}" />
+<Player queue="{playlist}" />

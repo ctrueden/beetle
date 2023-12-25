@@ -6,6 +6,8 @@
 
  import { env } from '$env/dynamic/public'
  import Link from './Link.svelte'
+ import ControlerSet from './ControlerSet.svelte'
+
 
  $: itemLink = "/item/" + item.id
  $: artistLink = "/artist/" + item.mb_artistid
@@ -33,37 +35,47 @@
             </div>
         {/if}
         <div class="name">
-            <div class="title">
+            <span class="title">
                 {#if disabledLink}
                     {item.title}
                 {:else}
                     <Link path="{itemLink}">{item.title}</Link>
                 {/if}
-            </div>
-            <div class="artist">
+            </span><br/>
+            <span class="artist">
                 {#if disabledLink}
                     {item.artist}
                 {:else}
                     <Link path="{artistLink}">{item.artist}</Link>
                 {/if}
-            </div>
+            </span>
         </div>
     </div>
+    {#if !albumDisplayed && !disabledLink}
+    <div class="controls-wrapper">
+       <ControlerSet play={false} add={true} items={[item]}/>
+    </div>
+    {/if}
     <div class="duration {(durationDisplayed) ? '' : 'hidden'}">
         {getMinute(item.length)}:{getSecond(item.length)}
     </div>
 </div>
 
 <style>
- .item {
-     width: 100%;
+  .item {
      display: flex;
+     width: 100%;
+     min-height: 2.2em;
      justify-content: space-between;
      align-items: center;
+     min-width:0;
  }
 
- .item .left {
-     flex-grow: 1;
+  .item .left {
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-width:0;
  }
 
  .item .album img {
@@ -89,15 +101,36 @@
      padding: .2em;
  }
 
- .item .title {
+ .name {
+     padding: .2em;
+     overflow: hidden;
+     white-space: nowrap;
+     text-overflow: ellipsis;
+ }
+ 
+ .title {
      font-weight: bold;
  }
 
- .item .artist {
+ .artist {
      font-size: .8em;
  }
 
  .hidden {
      display: none;
  }
+
+  .controls-wrapper {
+    padding: 0 .5em;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 4em;
+  }
+
+  .duration {
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 2em;
+  }
+
 </style>

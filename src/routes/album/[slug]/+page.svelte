@@ -1,6 +1,6 @@
 <script>
  import { env } from '$env/dynamic/public'
- import PlaylistControllers from '../../../components/PlaylistControllers.svelte'
+ import ControlerSet from '../../../components/ControlerSet.svelte'
  import TrackList from '../../../components/TrackList.svelte'
  import GenreList from '../../../components/GenreList.svelte'
  import Link from '../../../components/Link.svelte'
@@ -21,7 +21,7 @@
     <p class="year">{album.original_year}</p>
     <GenreList genreString="{album.genre}" />
     <div class="controls-wrapper">
-        <PlaylistControllers items={album.items} />
+        <ControlerSet items={album.items} />
     </div>
 </header>
 
@@ -43,6 +43,7 @@
     }
     
     header .controls-wrapper {
+    margin-top: 1em;
     text-align: center;
     }
 
@@ -62,7 +63,7 @@
     }
     
     .tracks {
-    margin-top: 2em;
+    margin-top: 1em;
     }
 
 </style>

@@ -1,6 +1,7 @@
 import { env } from '$env/dynamic/public'
 
-export function load({ fetch, params }) {
-     const playlists = (env.BEETLE_PLAYLISTS !== undefined) ? env.BEETLE_PLAYLISTS.split(",").map(s => s.trim()) : ""
-     return Promise.resolve({playlists: playlists})
+export async function load({ fetch, params }) {
+  return fetch('/playlist')
+    .then(r => r.json())
+    .then(playlists => {return {playlists: playlists}})
  }

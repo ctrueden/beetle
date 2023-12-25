@@ -48,7 +48,7 @@ convert:
         format: mp3
 ```
 
-If you are interested in using playlists, you should also consider installing [the playlist plugin](https://beets.readthedocs.io/en/stable/plugins/playlist.html). 
+If you are interested in using playlists, you should also consider installing [the playlist plugin](https://beets.readthedocs.io/en/stable/plugins/playlist.html). I am currently using a [fork of the original beet](https://github.com/laBecasse/beets/tree/playlist_sorting) allowing to retrieve the playlist items in the same order as they are saved in M3U files.  
 
 Also copy the content of `.env.source` into `.env` and edit it, if you need.
 

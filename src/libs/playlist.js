@@ -1,3 +1,4 @@
+// about the queue in fact
 export default class playlist {
   constructor () {
     this.idIndex = 0
@@ -10,7 +11,7 @@ export default class playlist {
   }
 
   // Controlling the queue
-  add (item) {
+  add (item, index=this.queue.length) {
     const songid = this.getFreshId()
     const obj = {
       uri: item.id,
@@ -18,7 +19,7 @@ export default class playlist {
       item: item
     }
 
-    this.queue.push(obj)
+    this.queue.splice(index, 0, obj)
     this.emitPlaylistUpdate()
     return obj
   }
@@ -29,16 +30,21 @@ export default class playlist {
     this.emitPlaylistUpdate()
   }
 
+  delete (index) {
+    const obj = this.queue.splice(index, 1)[0]
+    if (index === this.playingIndex) {
+      this.stop()
+    } else if (index < this.playingIndex) {
+      this.playingIndex--
+    }
+    this.emitPlaylistUpdate()
+    return obj
+  }
+  
   deleteid (songid) {
     const index = this.queue.findIndex(obj => obj.songid === songid)
     if (index !== -1) {
-      this.queue.splice(index, 1)
-      if (index === this.playingIndex) {
-        this.stop()
-      } else if (index < this.playingIndex) {
-        this.playingIndex--
-      }
-      this.emitPlaylistUpdate()
+      return this.delete(index)
     }
   }
 
