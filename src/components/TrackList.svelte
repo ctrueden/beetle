@@ -14,7 +14,7 @@
                     {item.track}
                 </div>
                 <div class="controls-wrapper">
-                    <ControlerSet items={[item]} add={false} like={false} />
+                    <ControlerSet items={[item]} add={false} like={false} after={false} />
                 </div>
             </div>
             <div class="item-wrapper">

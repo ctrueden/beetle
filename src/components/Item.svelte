@@ -124,7 +124,7 @@
     padding: 0 .5em;
     flex-grow: 0;
     flex-shrink: 0;
-    flex-basis: 4em;
+    flex-basis: 6em;
   }
 
   .duration {

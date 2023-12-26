@@ -3,9 +3,9 @@
  export let play = true
  export let add = true
  export let like = true
- export let trash = false
+ export let after = true
 
- import QueueInsert from './QueueInsert.svelte'
+import QueueInsert from './QueueInsert.svelte'
  import PlaylistAddControler from './PlaylistAddControler.svelte'
 
 </script>
@@ -14,6 +14,11 @@
   {#if play}
     <div class="control">
         <QueueInsert items="{items}" forcePlay="{true}" />
+    </div>
+  {/if}
+  {#if after}
+    <div class="control">
+        <QueueInsert items="{items}" addAfter="{true}" />
     </div>
   {/if}
   {#if add}
