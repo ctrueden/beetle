@@ -182,24 +182,24 @@ function applyNewItemsOrder() {
   const items = getAllItems()
   let oldIndex
   let newIndex
-  const reorderedItems = []
 
   items.forEach((item, index) => {
     if (item === draggableItem) {
       oldIndex = index
       return
     }
-    if (!isItemToggled(item)) {
-      reorderedItems[index] = item
+    if (!isItemToggled(item))
       return
-    }
+
     // in case draggable is below, first item to be toggled is at the new index
     if (!isItemAbove(item) || newIndex === undefined)
       newIndex = index
   })
 
-  if (!newIndex)
+  if (!newIndex && !isItemToggled(items[0]))
     newIndex = oldIndex
+  else if (isItemToggled(items[0]))
+    newIndex = 0
 
   return {oldIndex, newIndex}
 }
