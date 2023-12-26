@@ -46,7 +46,7 @@
 
  .track .controls-wrapper {
     display: flex;
-    align-items: stretch;
+    align-items: center;
  }
 
 .track .number {
@@ -82,10 +82,8 @@
  .track:hover .number {
      display: none;
  }
- .track:hover .controls-wrapper,.controls {
+ .track:hover .controls-wrapper {
      display: flex;
-     align-items:  center;
-     justify-content: center;
  }
 }
 </style>
