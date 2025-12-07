@@ -30,7 +30,7 @@
         {#if albumDisplayed}
             <div class="album">
                 <Link path="{albumLink}" alt="{item.album}">
-                    <img src="{env.BEETLE_API}/album/{item.album_id}/art" alt="{item.album}" />
+                    <img src="{env.BEETLE_API_CLIENT}/album/{item.album_id}/art" alt="{item.album}" />
                 </Link>
             </div>
         {/if}

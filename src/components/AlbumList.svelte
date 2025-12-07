@@ -45,7 +45,7 @@
 	     waiting for the 'click' event -->
         <div class="card">
             <Link path="/album/{album.id}">
-                <img class="poster" src="{env.BEETLE_API}/album/{album.id}/art" alt="{album.album} cover" />
+                <img class="poster" src="{env.BEETLE_API_CLIENT}/album/{album.id}/art" alt="{album.album} cover" />
             </Link>
             <p class="album">
                 <Link path="/album/{album.id}">{album.album}</Link>

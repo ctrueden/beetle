@@ -2,18 +2,25 @@ import { error } from '@sveltejs/kit'
 import { env } from '$env/dynamic/public'
 
 export async function load({ fetch, params }) {
-  // the `slug` parameter is available because
-  // this file is called [slug].svelte
-  const url = env.BEETLE_API + `/item/query/playlist:${params.slug}`
+  const base = env.BEETLE_BASE || ''
+  const url = base + `/api/playlist/${params.slug}`
   const res = await fetch(url)
 
-  const data = await res.json()
-  if (res.status === 200) {
+  if (res.status === 404) {
+    throw error(404, `Playlist not found: ${params.slug}`)
+  }
+
+  if (!res.ok) {
+    throw error(res.status, `Failed to load playlist: ${res.statusText}`)
+  }
+
+  try {
+    const data = await res.json()
     return {
       tracklist: data.results,
       name: params.slug
-    };
-  } else {
-    error(res.status, data.message)
+    }
+  } catch (e) {
+    throw error(500, `Failed to parse playlist data: ${e instanceof Error ? e.message : String(e)}`)
   }
 }

@@ -2,15 +2,22 @@ import { env } from '$env/dynamic/public'
 import { error } from '@sveltejs/kit'
 
 export async function load({ fetch, params }) {
-  // the `slug` parameter is available because
-  // this file is called [slug].svelte
-  let url = env.BEETLE_API + `/item/${params.slug}`
+  const base = env.BEETLE_BASE || ''
+  const url = base + `/api/item/${params.slug}`
   const res = await fetch(url)
 
-  const data = await res.json()
-  if (res.status === 200) {
+  if (res.status === 404) {
+    throw error(404, `Item not found (ID: ${params.slug})`)
+  }
+
+  if (!res.ok) {
+    throw error(res.status, `Failed to load item: ${res.statusText}`)
+  }
+
+  try {
+    const data = await res.json()
     return { item: data }
-  } else {
-    error(res.status, data.message)
+  } catch (e) {
+    throw error(500, `Failed to parse item data: ${e instanceof Error ? e.message : String(e)}`)
   }
 }

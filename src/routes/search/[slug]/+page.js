@@ -1,17 +1,19 @@
 import { env } from '$env/dynamic/public'
 
 export function load({ fetch, params }) {
+  const base = env.BEETLE_BASE || ''
+  const url = base + `/api/search/${params.slug}`
 
-  const p = Promise.all([
-    fetch(env.BEETLE_API + '/album/query/' + params.slug).then(r => r.json()),
-    fetch(env.BEETLE_API + '/item/query/' + params.slug).then(r => r.json())
-  ])
-  
-  return p.then(answers => {
-    return {
-      albums: answers[0].results,
-      items: answers[1].results,
-      query: params.slug
-    };
-  });
+  return fetch(url)
+    .then(r => {
+      if (!r.ok) throw new Error(`HTTP ${r.status}`)
+      return r.json()
+    })
+    .then(answers => {
+      return {
+        albums: answers.albums,
+        items: answers.items,
+        query: params.slug
+      }
+    })
 }

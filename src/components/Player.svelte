@@ -110,7 +110,7 @@
              artist: item.artist,
              album: item.album,
              artwork: [
-                 { src: env.BEETLE_API + '/album/' + item.album_id + '/art',   sizes: '300x300',   type: 'image/jpeg' }
+                 { src: env.BEETLE_API_CLIENT + '/album/' + item.album_id + '/art',   sizes: '300x300',   type: 'image/jpeg' }
              ]
          });
      }

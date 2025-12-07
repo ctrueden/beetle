@@ -2,12 +2,22 @@ import { error } from '@sveltejs/kit'
 import { env } from '$env/dynamic/public'
 
 export async function load({ fetch, params }) {
-  const res = await fetch(env.BEETLE_API + `/album/${params.slug}?expand`)
+  const base = env.BEETLE_BASE || ''
+  const url = base + `/api/album/${params.slug}`
+  const res = await fetch(url)
 
-  const data = await res.json()
-  if (res.status === 200) {
+  if (res.status === 404) {
+    throw error(404, `Album not found (ID: ${params.slug})`)
+  }
+  
+  if (!res.ok) {
+    throw error(res.status, `Failed to load album: ${res.statusText}`)
+  }
+
+  try {
+    const data = await res.json()
     return { album: data }
-  } else {
-    error(res.status, data.message)
+  } catch (e) {
+    throw error(500, `Failed to parse album data: ${e instanceof Error ? e.message : String(e)}`)
   }
 }

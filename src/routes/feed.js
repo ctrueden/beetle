@@ -34,7 +34,7 @@ let albumFeed = function(albums) {
                 { pubDate: new Date(album.added).toUTCString() },
                 { link: HOST + 'album/' + album.id },
                 { guid: HOST + 'album/' + album.id },
-                { description: { _cdata: `<img src="${env.BEETLE_API}/album/${album.id}/art"/><p>${album.album}<br/>${album.albumartist}<br/>${album.year}</p>` } }
+                { description: { _cdata: `<img src="${env.BEETLE_API_CLIENT}/album/${album.id}/art"/><p>${album.album}<br/>${album.albumartist}<br/>${album.year}</p>` } }
               ]
             }
           })
@@ -47,7 +47,8 @@ let albumFeed = function(albums) {
 }
 
 export function get (req, res) {
-  fetch(env.BEETLE_API + '/album/query/added-')
+  const API_URL = process.env.API_SERVER_URL
+  fetch(API_URL + '/album/query/added-')
     .then(r => r.json())
     .then(albums => {
       let recentAlbums = albums.results.splice(0, 20)

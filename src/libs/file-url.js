@@ -17,6 +17,6 @@ export default function (item) {
 
     return FILES_URL + separator + relativePath
   } else {
-    return env.BEETLE_API + '/item/' + item.id + '/file'
+    return env.BEETLE_API_CLIENT + '/item/' + item.id + '/file'
   }
 }

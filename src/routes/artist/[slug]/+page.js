@@ -1,8 +1,12 @@
 import { env } from '$env/dynamic/public'
 
 export async function load({ fetch, params }) {
-  return fetch(env.BEETLE_API + `/item/query/mb_artistid:${params.slug}`)
-    .then(r => r.json()).then(res => {
-      return { items: res.results };
-    });
+  const base = env.BEETLE_BASE || ''
+  const url = base + `/api/artist/${params.slug}`
+  const res = await fetch(url)
+  
+  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+  
+  const data = await res.json()
+  return { items: data.results }
 }
