@@ -20,6 +20,6 @@
 </header>
 
 <div class="tracks">
-    <h2>Pistes</h2>
+    <h2>Tracks</h2>
     <TrackList tracklist="{tracklist}" />
 </div>

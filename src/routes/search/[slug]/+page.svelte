@@ -28,7 +28,7 @@
     <div class="controls-wrapper">
         <ControlerSet items={items} />
     </div>
-    <h2>Pistes</h2>
+    <h2>Tracks</h2>
     {#each items as item}
         <Item item="{item}"/>
     {/each}
