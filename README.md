@@ -1,5 +1,13 @@
 # Beetle: A beeautiful web interface for Beets
 
+-------------------
+
+This is a FORK of the official Beetle, which you can find on GitLab at:
+
+https://gitlab.com/maxburon/beetle
+
+-------------------
+
 Beetle is a web interface for a music library in [Beets](https://github.com/beetbox/beets) build using [svelte](https://kit.svelte.dev/).
 
 ![video](https://book.buron.coffee/notes/img/beetle-demo.mp4)
