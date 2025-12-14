@@ -4,6 +4,8 @@
  import Item from './Item.svelte'
 
  export let tracklist
+ 
+ $: hasMultipleDiscs = tracklist.length > 0 && Math.max(...tracklist.map(t => t.disc || 1)) > 1
 </script>
 
 <div class="tracklist">
@@ -11,7 +13,11 @@
         <div class="track">
             <div class="first-wrapper">
                 <div class="number">
-                    {item.track}
+                    {#if hasMultipleDiscs}
+                        {item.disc}.{item.track}
+                    {:else}
+                        {item.track}
+                    {/if}
                 </div>
                 <div class="controls-wrapper">
                     <ControlerSet items={[item]} add={false} like={false} after={false} />
@@ -38,7 +44,7 @@
 
  .track .first-wrapper {
      display: flex;
-     flex-basis: 2.2em;
+     flex-basis: 2.8em;
      flex-grow: 0;
      flex-shrink: 0;
      align-items: stretch;

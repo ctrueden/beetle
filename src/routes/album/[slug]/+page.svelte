@@ -27,7 +27,7 @@
 
 <div class="tracks">
     <h2>Tracks</h2>
-    <TrackList tracklist="{album.items.sort((a,b) => b.track < a.track)}" />
+    <TrackList tracklist="{album.items.sort((a,b) => a.disc - b.disc || a.track - b.track)}" />
 </div>
 
 <style>
